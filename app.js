@@ -1,8 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 
-require('dotenv').config();
 
 var app = express();
 //declare new express app
@@ -18,4 +18,4 @@ app.use((req, res, next) => {
 
 app.use('/', express.static(path.join(__dirname, 'public')))
 
-app.listen(process.env.PORT, ()=>console.log(`listening on ${process.env.PORT}`))
+app.listen(process.env.PORT || 3000, ()=>console.log(`listening on ${process.env.PORT || 3000}`))
