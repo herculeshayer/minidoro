@@ -16,6 +16,6 @@ app.use((req, res, next) => {
 })
 
 
-app.use('/', express.static(path.join(__dirname, 'public')))
+app.use('/', express.static(path.join(__dirname, '/public')))
 
-app.listen(process.env.PORT || 3000, ()=>console.log(`listening on ${process.env.PORT || 3000}`))
+app.listen(process.env.PORT, ()=>console.log(`listening on ${process.env.PORT}`))
