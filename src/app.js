@@ -18,4 +18,6 @@ app.use((req, res, next) => {
 
 app.use('/', express.static(path.join(__dirname, '/public')))
 
+app.use('/login', require('./routes/User'));
+
 app.listen(process.env.PORT, ()=>console.log(`listening on ${process.env.PORT}`))
