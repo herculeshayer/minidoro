@@ -16,18 +16,6 @@ const config = {
   };
 
 var app = express();
-
-app.use(auth(config));
-
-app.get('/', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
-
-app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-});
-
-
 //declare new express app
 app.use(express.json());
 
@@ -38,10 +26,27 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use(auth(config));
 
-app.use('/home', express.static(path.join(__dirname, '/public')))
+
+app.get('/login', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    res.oidc.login({
+        returnTo: '/profile'
+    })
+});
+
+// app.get('/profile', requiresAuth(), (req, res) => {
+//   res.send(JSON.stringify(req.oidc.user));
+// });
+app.use('/profile', require('./routes/Profile'));
+
+
+
+
+app.use('/', express.static(path.join(__dirname, '/public')))
 
 // app.use('/callback', require('./route'))
 // app.use('/login', require('./routes/User'));
 
-app.listen(process.env.PORT, ()=>console.log(`listening on ${process.env.PORT}`))
+app.listen(process.env.PORT, () => console.log(`listening on ${process.env.PORT}`))
