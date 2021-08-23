@@ -7,22 +7,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <link rel="stylesheet" href="styles.css">
     <title>MiniDoro - Pomodoro Timer</title>
+    <script src="scripts.js"></script>
 </head>
 <body>
     <h1>MiniDoro</h1>
     <h3>Application in progress 😊</h3>
+    <!-- <h5>Login with Auth0</h5> -->
     
     <form class="container">
-        <label>Username</label>
+        <!-- <label>Username</label>
         <input type="text" />
         <label>Password</label>
-        <input type="password" />
+        <input type="password" /> -->
         <div>
-            <button class="button-primary">Login</button>
-            <button class="button-primary" style="margin-top: 50px; display: inline">Sign-up</button>
+            <button type="button" class="button-primary" id="login-button" onClick="changePage();">Login w/ Auth0</button>
+            <!-- <button class="button-primary" style="margin-top: 50px; display: inline">Sign-up</button> -->
+            <!-- <a href="https://www.google.ca/">dsa</a> -->
         </div>
         
     </form>
     
 </body>
+
 </html>
