@@ -1,4 +1,4 @@
-# Pomodoro Application 
+# Pomodoro Application ⏲️ 🍅
 
 - [ ] Minimal Burger Navigation
 - [ ] PostgreSQL database design
