@@ -2,6 +2,7 @@
 
 - [ ] Minimal Burger Navigation
 - [ ] PostgreSQL database design
+- [ ] Pomodoro Timer.js - default 25m & 5m
 
 
 
