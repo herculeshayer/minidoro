@@ -7,26 +7,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
     <link rel="stylesheet" href="styles.css">
     <title>MiniDoro - Pomodoro Timer</title>
-    <script src="scripts.js"></script>
+    <!-- <script src="scripts.js"></script> -->
 </head>
 <body>
     <h1>MiniDoro</h1>
     <h3>Application in progress 😊</h3>
     <!-- <h5>Login with Auth0</h5> -->
     
-    <form class="container">
-        <!-- <label>Username</label>
-        <input type="text" />
+    <form class="container" id="user-form">
+        <label>Email</label>
+        <input type="text" id="email" autocomplete="off"/>
         <label>Password</label>
-        <input type="password" /> -->
+        <input type="password" id="password" autocomplete="off"/>
         <div>
-            <button type="button" class="button-primary" id="login-button" onClick="changePage();">Login w/ Auth0</button>
-            <!-- <button class="button-primary" style="margin-top: 50px; display: inline">Sign-up</button> -->
-            <!-- <a href="https://www.google.ca/">dsa</a> -->
+            <button type="submit" class="button-primary" id="logout-button">Signup</button>
         </div>
         
     </form>
-    
+    <script>
+        const form = document.getElementById('user-form');
+        
+        form.addEventListener('submit', displayInfo);
+        
+        async function displayInfo(e) {
+            event.preventDefault();
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            console.log(email, password);
+
+            const result = await fetch('/api/user', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            })
+            .then(res => res.json())
+
+
+        }
+    </script>
 </body>
 
 </html>
