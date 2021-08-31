@@ -12,7 +12,7 @@ router.get('/user', (req, res) => {
 
 router.post('/user', (req,res) => {
     try {
-        res.json(req.body)
+        res.json({message: "recieved"})
     } catch (error) {
         res.json({message: error})
     }
