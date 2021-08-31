@@ -45,10 +45,9 @@
             window.alert('enter a fucking email and password')
         } else {
             form.style.backgroundColor = "#FFE66D"
-            
         }
 
-        await fetch('http://localhost:3000/api/user', {
+        await fetch('/api/user', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
