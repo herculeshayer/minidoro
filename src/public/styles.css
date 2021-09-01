@@ -2,9 +2,8 @@ body {
     text-align: center; 
     margin: 10% auto;
     
-    /* background-image: url("background.svg"); */
+    background-image: url("1-01.svg");
 }
-
 
 .container {
     display: inline-block;
@@ -12,10 +11,10 @@ body {
     /* width: 50%; */
   
     margin-top: 50px;
-    /* background-color: antiquewhite; */
+    background-color: rgba(78, 73, 73, 0.486);
     /* text-align: center;
     margin: 0 auto; */
-    width: 50%;
+    width: 400px;
 }
 .container input {
     padding: 5px;
