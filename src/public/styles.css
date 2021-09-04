@@ -11,10 +11,11 @@ body {
     /* width: 50%; */
   
     margin-top: 50px;
-    background-color: rgba(78, 73, 73, 0.486);
+    background-color: rgba(255, 233, 134, 0.89);
     /* text-align: center;
     margin: 0 auto; */
     width: 400px;
+    border-radius: 10%;
 }
 .container input {
     padding: 5px;
