@@ -42,12 +42,12 @@
         const password = document.getElementById('password').value;
         
         if(!email && !password) {
-            window.alert('enter a fucking email and password')
+            window.alert('invalid entry, enter an email and password')
         } else {
-            form.style.backgroundColor = "#FFE66D"
+            window.alert('login accepted');
         }
 
-        await fetch('/api/user', {
+        const result = await fetch('/api/user', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -61,9 +61,15 @@
         .then(res=> res.json())
         .then(data=> console.log(data))
         .catch(e=>console.log(e))
-       
-        console.log(email, password);
+        
+        if(result.status === 'ok') {
 
+        } else {
+            alert(result.error)
+        }
+        console.log(email, password);
+        form.reset();
+        // password.reset();
 
     }
     form.removeEventListener('submit', submitInfo, true);
