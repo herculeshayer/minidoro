@@ -4,6 +4,14 @@ const router = express.Router();
 
 const db = require('../db');
 
+router.get('/user', (req,res) => {
+    try {
+        res.json({message: 'user'})
+    } catch (error) {
+        res.json({message: error})
+    }
+})
+
 router.get('/user/:id', (req, res, next) => {
     try {
         db.query('SELECT * FROM users WHERE user_id = $1', [req.params.id], (err, result) => {

@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 // app.use('/', require('./routes/db-connection.js'));
 
 
-app.use('/api', require('./routes/user'))
+app.use('/api', require('./routes/User'))
 app.use('/', express.static(path.join(__dirname, '/public')))
 
 
