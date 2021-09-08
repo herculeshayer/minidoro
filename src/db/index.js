@@ -1,8 +1,13 @@
 require('dotenv').config();
 
-const { Pool } = require('pg');
+const { Pool, defaults } = require('pg');
 
 // console.log(`${process.env.HEROKU_DATABASE_URL}`)
+// if(process.env.NODE_ENV === 'production') {
+//     defaults.ssl = {
+//         rejectUnauthorized: false
+//     }
+// }
 const pool = new Pool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -12,7 +17,7 @@ const pool = new Pool({
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
-    // ssl: true
+    ssl: false
 });
 pool.on('connect', ()=> console.log('Connection Successful'));
 // pool.on('error', ()=> console.log(error))
