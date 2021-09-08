@@ -29,8 +29,8 @@ router.post('/user', async (req,res,next) => {
     //     return res.json({status: 'error'});
     // }
 
-    try {
-        db.query(`INSERT INTO users (username, password, email) VALUES (${username}, ${password}, ${email});`, null, (err,result) => {
+    try {//need to check out correct params for query
+        db.query(`INSERT INTO users (username, password, email) VALUES (${username}, ${password}, ${email});`, [req.body], (err,result) => {
                 if(err) {
                     return next(err)
                 }
