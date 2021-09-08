@@ -12,10 +12,7 @@ const pool = new Pool({
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
-    // ssl: {
-    //     rejectUnauthorized: false
-    // }
-
+    // ssl: true
 });
 pool.on('connect', ()=> console.log('Connection Successful'));
 // pool.on('error', ()=> console.log(error))
