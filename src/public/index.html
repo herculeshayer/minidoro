@@ -15,10 +15,14 @@
 
     <form class="container" id="form-data">
         <div class="row">
+            <label>Username: </label>
+            <input type="text" class="u-full-width" id="username" autocomplete="username"/>
             <label>Email: </label>
             <input type="email" class="u-full-width" id="email" autocomplete="email"/>
             <label>Password: </label>
             <input type="password" class="u-full-width" id="password" autocomplete="current-password"/>
+            <!-- <label>Repeat Password: </label>
+            <input type="password" class="u-full-width" id="password2" autocomplete="off"/> -->
             <div>
                 <button type="submit" class="button-primary">Sign-up</button>
             </div>
@@ -33,41 +37,58 @@
 <script>
     const form = document.getElementById('form-data');
     form.addEventListener('submit', submitInfo);
+
+    // function checkPassword(p1,p2) {
+    //     if(p1 !== p2) {
+    //         window.alert(`Passwords don't match`)
+    //     }
+    // }
     
     async function submitInfo(e) {
         e.preventDefault();
         
-        
+        const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        // const passwordCheck = document.getElementById('password2').value;
         
-        if(!email && !password) {
-            window.alert('invalid entry, enter an email and password')
+        // checkPassword(password,passwordCheck);
+        
+        if(!username && !email && !password) {
+            // window.alert('invalid entry')
+            console.log('invalid login');
         } else {
-            window.alert('login accepted');
+            // window.alert('login accepted');
+            console.log('login accepted');
         }
 
-        const result = await fetch('/api/user', {
+        const result = await fetch('/api/register', {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             mode: "cors",
             body: JSON.stringify({
+                username: username,
                 email: email,
                 password: password
             })
         })
         .then(res=> res.json())
-        .then(data=> console.log(data))
+        .then(data=> {
+            if(data.status === 'OK') {
+                console.log('registration success', data);
+                alert('registration success')
+            } else {
+                alert(data.error)
+            }
+            // console.log(data)
+        })
         .catch(e=>console.log(e))
         
-        if(result.status === 'ok') {
-
-        } else {
-            alert(result.error)
-        }
-        console.log(email, password);
+        
+        console.log(username, email, password);
         form.reset();
         // password.reset();
 
