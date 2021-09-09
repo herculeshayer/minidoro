@@ -38,14 +38,14 @@ router.post('/user', async (req,res,next) => {
     // }
 
     try {//need to check out correct params for query
-        db.query(`INSERT INTO users (username, password, email) VALUES (${username}, ${password}, ${email});`, [req.body], (err,result) => {
+        db.query(`INSERT INTO users(username, password, email) VALUES ($1,$2,$3);`, [username,password,email], (err,result) => {
                 if(err) {
                     return next(err)
                 }
-                res.send(result.rows[0]);
+                res.status(201).send(`User: ${username} w/ email: ${email} added`);
             });
         // console.log(await bcrypt.hash(plainTextPassword, 10));
-        res.json({message: "recieved"});
+        // res.json({message: "recieved"});
     } catch (error) {
         if(error.code === 11000) {
             res.json(`window.alert('duplicate key')`);
@@ -54,14 +54,9 @@ router.post('/user', async (req,res,next) => {
         // res.json({message: error})
     }
 })
+
 //login
-// router.post('/user/login', (req, res) => {
-//     try {
-//         res.send({message: "user successfully logged in"})
-//     } catch (error) {
-        
-//     }
-// })
+
 
 
 
