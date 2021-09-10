@@ -1,9 +1,6 @@
 # Pomodoro Application - In Progress⏲️ 🍅
 
-- [ ] Minimal Burger Navigation
-- [ ] PostgreSQL database design
-- [ ] Pomodoro Timer.js - default 25m & 5m
-
+https://minidoro.herokuapp.com/ --> App is hosted on a free heroku dyno, give it a few seconds to load
 
 
 
