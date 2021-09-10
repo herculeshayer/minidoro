@@ -49,12 +49,14 @@ router.post('/login', async (req, res) => {
             }
             return result.row[0];
         })
-        const hashedPassword = await bcrypt.compare(password, dbPassword.password);
-        console.log(hashedPassword);
+        if(await bcrypt.compare(password, dbPassword.password)) {
+            console.log(hashedPassword);
+        }
+        // console.log(hashedPassword);
+        res.json({status: 'ok'})
     } catch (error) {
         throw error;
     }
-    res.json({status: 'ok'})
 })
 
 //login
