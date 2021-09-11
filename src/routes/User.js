@@ -29,7 +29,7 @@ router.post('/register', async (req,res,next) => {
         // res.json({message: "recieved"});
     } catch (error) {
         if(error.code === 11000) {
-            res.json(`window.alert('duplicate key')`);
+            res.json({message: `window.alert('duplicate key')`});
         }
         throw error;
         // res.json({message: error})
@@ -37,23 +37,30 @@ router.post('/register', async (req,res,next) => {
 })
 
 //login
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
     
     // const hashedPassword = await bcrypt.compare();
 
     try {
-        const dbPassword = db.query('SELECT * FROM users WHERE username = $1', [username], (err, result) => {
+        const dbPassword = await db.query('SELECT * FROM users WHERE username = $1', [username], (err, result) => {
             if(err) {
                 return next(err)
             }
-            return result.row[0];
+            console.log(result.rows[0].password)
+            // return next(null, result.rows[0].password)
+            
+            // await db.end();
+            // return result.rows[0].password
+            // res.send(result.rows[0].password)
         })
-        if(await bcrypt.compare(password, dbPassword.password)) {
-            console.log(hashedPassword);
-        }
+        console.log(dbPassword);
+        res.json({message: dbPassword});
+        // if(await bcrypt.compare(password, dbPassword.password)) {
+        //     console.log(hashedPassword);
+        // }
         // console.log(hashedPassword);
-        res.json({status: 'ok'})
+        // res.json({status: 'ok'})
     } catch (error) {
         throw error;
     }
