@@ -1,6 +1,10 @@
 require('dotenv').config();
 
 const { Pool, defaults } = require('pg');
+/*
+    Convoluted method of using a production DB
+    and a local dev DB... but it works and im going to use it 
+*/
 
 if(process.env.NODE_ENV == 'development') {
     const pool = new Pool({
