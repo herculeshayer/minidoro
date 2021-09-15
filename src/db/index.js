@@ -25,6 +25,7 @@ if(process.env.NODE_ENV == 'development') {
         query: (text, params, callback) => {
             return pool.query(text, params, callback)
         },
+        asyncQuery: (text, params) => pool.query(text, params),
     }
 } 
 if(process.env.NODE_ENV == 'production') {
@@ -49,6 +50,7 @@ if(process.env.NODE_ENV == 'production') {
         query: (text, params, callback) => {
             return pool.query(text, params, callback)
         },
+        asyncQuery: (text, params) => pool.query(text, params),
     }
 
 }
