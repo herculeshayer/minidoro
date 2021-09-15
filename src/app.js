@@ -6,10 +6,6 @@ const mountRoutes = require('./routes')
 var app = express();
 app.use(express.json());
 
-mountRoutes(app);
-
-//declare new express app
-
 // enable cors for all methods
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*")
@@ -18,11 +14,15 @@ app.use((req, res, next) => {
     next();
 })
 
+//declare new express app
+app.use('/', express.static(path.join(__dirname, '/public')))
+
+mountRoutes(app);
+
 // app.use('/', require('./routes/db-connection.js'));
 
 
 // app.use('/api', require('./routes/User'))
-app.use('/', express.static(path.join(__dirname, '/public')))
 
 
 
