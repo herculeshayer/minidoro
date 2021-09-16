@@ -72,7 +72,9 @@
         .then(data=> {
             if(data.status === 'OK') {
                 console.log(data.status, 'token: ', data.tokenData);
-                window.alert('registration success')
+                localStorage.setItem('token', data.tokenData);
+                window.alert('login success')
+                window.location.href = "./user.html"
             } else {
                 window.alert(data.error)
             }
