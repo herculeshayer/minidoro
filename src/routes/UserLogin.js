@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
             res.json({ status: 'OK', tokenData: token })
         } else {
 
-            res.send('no good');
+            res.send('password does not match db password');
         }
 
     } catch (error) {
