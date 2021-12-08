@@ -25,7 +25,9 @@ router.post('/', async (req, res) => {
         const databaseUserName = databaseUser.rows[0].username;
         const databasePassword = databaseUser.rows[0].password;
 
-        //Doesn't work?
+        /**
+         * If no password or username is entered, send json response
+         */
         if(!databasePassword | !databaseUserName) {
             res.json({ status: "error", error: 'invalid username/password'})
         } 
@@ -37,15 +39,21 @@ router.post('/', async (req, res) => {
             
             //This info is not hidden, don't pass sensitive info
             //User token
-            const token = jwt.sign({
+            jwt.sign({
                     id: databaseUser.rows[0].user_id,
                     username: databaseUserName,
                     email: databaseUser.rows[0].email
                 }, 
-                process.env.JWT_SECRET
+                process.env.JWT_SECRET, {
+                    expiresIn: '1h'
+                }, (err, token) => {
+                    if(err) {
+                        console.log(err);
+                    }
+                    res.json({ status: 'OK', tokenData: token })
+                }
             )
 
-            res.json({ status: 'OK', tokenData: token })
         } else {
 
             res.send('password does not match db password');
