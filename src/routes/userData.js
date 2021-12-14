@@ -15,3 +15,5 @@ router.get('/:id', checkHeader, async (req, res) => {
         throw error;
     }
 })
+
+module.exports = router;
