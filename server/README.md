@@ -1,1 +1,0 @@
-# MiniDoro Server-side
