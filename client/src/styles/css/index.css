@@ -1,7 +1,7 @@
 body {
   text-align: center;
   margin: 10% auto;
-  background-image: url("./../../../assets/1-01.svg");
+  background-image: url("./../../../public/assets/1-01.svg");
 }
 
 .container {
@@ -21,7 +21,7 @@ body {
   max-width: 300px;
 }
 
-.half-background {
+/* .half-background {
   background-image: url("../assets/1-01.svg");
-}
+} */
 /*# sourceMappingURL=index.css.map */

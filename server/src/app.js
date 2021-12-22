@@ -14,8 +14,11 @@ app.use((req, res, next) => {
     next();
 })
 
+app.get('/', (req, res) => {
+    res.send('hi');
+})
 //declare new express app
-app.use('/', express.static(path.join(__dirname, '/public')))
+// app.use('/', express.static(path.join(__dirname, 'index.html')))
 
 mountRoutes(app);
 

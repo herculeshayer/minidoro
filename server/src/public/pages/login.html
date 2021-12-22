@@ -50,6 +50,8 @@
         // const passwordCheck = document.getElementById('password2').value;
         
         // checkPassword(password,passwordCheck);
+
+        var JWT_TOKEN;
         
         if(!username && !password) {
             window.alert('invalid entry')
@@ -72,15 +74,16 @@
         .then(data=> {
             if(data.status === 'OK') {
                 console.log(data.status, 'token: ', data.tokenData);
-                localStorage.setItem('token', data.tokenData);
+                JWT_TOKEN = data.tokenData;
+                // localStorage.setItem('token', data.tokenData);
                 window.alert('login success')
-                window.location.href = "./user.html"
+                // window.location.href = "./user.html"
             } else {
                 window.alert(data.error)
             }
         })
         
-        
+        console.log('jwt-token', JWT_TOKEN);
         
         console.log(username, password);
         form.reset();
