@@ -7,11 +7,25 @@ const HomePage = () => {
     const [password, setPassword] = useState(0);
 
 
+    const handleSubmit = (e) => {
+
+    }
     
 
     return(
         <section className="homepage-wrapper">
             <h1>MiniDoro</h1>
+            <form onSubmit={handleSubmit}>
+                <label>Email: </label>
+                <input />
+                <label>Password: </label>
+                <input />
+                <div>
+                    <button>Signup</button>
+                    <button>Submit</button>
+
+                </div>
+            </form>
 
         </section>
     );
