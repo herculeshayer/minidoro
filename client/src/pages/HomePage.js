@@ -17,9 +17,9 @@ const HomePage = () => {
             <h1>MiniDoro</h1>
             <form onSubmit={handleSubmit}>
                 <label>Email: </label>
-                <input />
+                <input placeholder="Email"/>
                 <label>Password: </label>
-                <input />
+                <input placeholder="Password"/>
                 <div>
                     <button>Signup</button>
                     <button>Submit</button>
