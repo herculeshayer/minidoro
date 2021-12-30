@@ -5,38 +5,30 @@ import { postLoginInformation } from './UserData.HomePage';
 
 const LoginUser = () => {
 
-    const [email, setEmail] = useState([]);
+    const [username, setUsername] = useState([]);
     const [password, setPassword] = useState([]);
 
 
-    // const [payloadBody, setPayloadBody] = useState({})
-
-    // setPayloadBody({
-    //     email: 'dds',
-    //     password: 'dsaa'
-    // })
- 
+    
     const handleSubmit = (event) => {
         event.preventDefault();
-        // console.log('hi');
-        // setEmail(event.target.value)
-        // setPassword(event.target.value)
+       
 
-        console.log(event.target.getAttribute('email'));
+        console.log(username);
         console.log(password);
 
-        // postLoginInformation(process.env.REACT_APP_API_URL, {
-        //     email: email, password: password
-        // });
+        postLoginInformation(process.env.REACT_APP_LOGIN_API_URL, {
+            username, password
+        });
     }
-    // console.log(email);
+   
     return (
         <section className="register-login">
             <form onSubmit={handleSubmit}>
-                <label>Email</label>
-                <input type="email" placeholder="Email" name="email" id="email" />
+                <label>Username</label>
+                <input type="text" placeholder="Username" name="username" onChange={e=>setUsername(e.target.value)} />
                 <label>Password</label>
-                <input type="password" placeholder="Password" name="password"  />
+                <input type="password" placeholder="Password" name="password" onChange={e=>setPassword(e.target.value)} />
                 <div>
                     <button type="submit" style={{fontSize: 25}}><TiArrowRightThick /></button>
                 </div>
