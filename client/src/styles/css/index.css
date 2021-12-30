@@ -4,22 +4,40 @@
   text-align: center;
   width: 100%;
   height: 100vh;
-  background-image: url("./../../../public/assets/1-01.svg");
+  background-image: url("./../../assets/1-01.svg");
+  display: inline-block;
+  font-size: 24px;
 }
 
 .homepage-wrapper h1 {
   font-size: 60px;
+  margin: 50px 0px;
 }
 
-.homepage-wrapper form {
-  display: inline-block;
-  font-size: 24px;
-  margin-top: 100px;
-}
-
-.homepage-wrapper form button {
+.homepage-wrapper button {
   background-color: #CF8E80;
   color: black;
+}
+
+.register-login {
+  background-color: #1eb9a0;
+  margin: 0rem 5rem;
+  padding: 25px;
+  border-radius: 30px;
+}
+
+.register-login input {
+  padding: 5px;
+  border-radius: 100px;
+  border-style: none;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  width: 20rem;
+}
+
+.register-login input:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
