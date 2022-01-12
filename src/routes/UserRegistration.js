@@ -23,6 +23,7 @@ router.post('/', async (req, res, next) => {
         const password = await bcrypt.hash(plainTextPassword, 10);
         db.query(`INSERT INTO users(username, password, email) VALUES ($1,$2,$3);`, [username,password,email], (err,result) => {
                 if(err) {
+                    console.log(err);
                     return next(err)
                 }
                 
@@ -35,43 +36,12 @@ router.post('/', async (req, res, next) => {
             console.log('hit')
             res.json({message: `window.alert('duplicate key')`});
         }
-        throw error;
-        // res.json({message: error})
+        // throw error;
+        console.log(error);
+        res.status(500).json({message: "error with registration, please try again"})
     }
 })
 
-//login
-// router2.post('/login', async (req, res) => {
-//     const { username, password } = req.body;
-    
-//     const { rows } = await db.queryTwo('SELECT * FROM users WHERE username = $1', [username])
-//     console.log(rows[0]);
-//     res.send(rows[0])
-
-//     // // const hashedPassword = await bcrypt.compare();
-
-//     // try {
-//     //     const hashedDBPassword = await db.query('SELECT * FROM users WHERE username = $1', [username], (err, result) => {
-//     //         if(err) {
-//     //             return next(err)
-//     //         }
-            
-//     //         console.log(result.rows[0].password);
-            
-//     //         // console.log(result.fields[0])
-            
-           
-//     //         res.send(result.rows[0].password)
-//     //     })
-//     //     console.log(hashedDBPassword)
-       
-//     // } catch (error) {
-//     //     throw error;
-//     // }
-//     // db.queryTwo
-// })
-
-//login
 
 
 module.exports = router;
