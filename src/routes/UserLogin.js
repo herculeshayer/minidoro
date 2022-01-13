@@ -47,9 +47,13 @@ router.post('/', async (req, res) => {
                 process.env.JWT_SECRET, {
                     expiresIn: '1h'
                 }, (err, token) => {
-                    if(err) {
+                    if (err) {
                         console.log(err);
                     }
+                    res.status(200).cookie('access-token', "Bearer " + token, {
+                        maxAge: 3600000,
+                        httpOnly: true
+                    })
                     res.json({ status: 'OK', tokenData: token })
                 }
             )
