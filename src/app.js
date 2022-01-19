@@ -8,8 +8,9 @@ app.use(express.json());
 
 // enable cors for all methods
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Origin", process.env.DOMAIN_ORIGIN)
     res.header("Access-Control-Allow-Headers", "*")
+    res.header("Access-Control-Allow-Methods", "GET, POST")
     res.header("Access-Control-Allow-Credentials", true)
     next();
 })
