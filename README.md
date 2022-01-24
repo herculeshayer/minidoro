@@ -1,4 +1,4 @@
-# Pomodoro Application - In Progress⏲️ 🍅
+# MiniDoro - Work Interval Tracker
 
 https://minidoro.netlify.com/ --> Frontend
 
