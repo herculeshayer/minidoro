@@ -1,15 +1,19 @@
 function checkHeader(req, res, next) {
-    const header = req.headers['authorization'];
+    // const cookie = req.cookies;
 
-    if(typeof header !== 'undefined') {
-        const bearer = header.split(' ');
-        const token = bearer[1];
+    // if(cookieExist(req.headers.cookie)) {
+    //     next();
+    // }
 
-        req.token = token;
-        next();
-    } else {
-        res.sendStatus(403);
-    }
+    // if(typeof cookie !== 'undefined') {
+    //     const bearer = header.split(' ');
+    //     const token = bearer[1];
+        
+    //     req.token = token;
+    //     next();
+    // } else {
+    //     res.sendStatus(403);
+    // }
 }
 
 function checkAuthorization(req, res, next) {
