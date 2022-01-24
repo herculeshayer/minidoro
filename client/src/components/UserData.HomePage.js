@@ -15,6 +15,7 @@ const postLoginInformation = (URL, payload) => {
         await fetch(URL, {
             method: 'POST',
             mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -22,12 +23,14 @@ const postLoginInformation = (URL, payload) => {
         })
             .then(res => res.json())
             .then(data=> {
+                
                 // token = data;
                 if(data.status === "OK") {
                     /**
                      * Redirect to dashboard?
                      * Dashboard will check for JWT and get all userdata?
                      */
+                    // window.location('http://localhost:3000/dashboard');
                 }
                 console.log(data)
             })
