@@ -1,9 +1,11 @@
-# MiniDoro - Work Interval Tracker
+# MiniDoro ⏰
 
+
+
+### Hosting
 https://minidoro.netlify.com/ --> Frontend
 
 https://minidoro.herokuapp.com/ --> Backend
-
 
 
 ### Application Description
@@ -15,5 +17,11 @@ This application will utilize Heroku as it's backend hosting platform. Heroku fr
 
 The application frontend is created using React and is hosted on Netlify
 
+### Screenshots
 
 <img src="https://user-images.githubusercontent.com/64183136/150860568-c5394ecb-49da-44b7-8e53-2b48485bcf8a.jpg" width="600"/>
+
+
+
+# License
+
