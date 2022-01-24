@@ -11,6 +11,8 @@ router.get('/:id', async (req, res) => {
     try {
         const rows = await db.asyncQuery('SELECT * FROM users WHERE username = $1', [req.params.id]);
 
+        console.log('cookies', req.cookies);
+        console.log('user', rows.rows[0]);
         res.send(rows.rows[0]);
     } catch (error) {
         throw error;
@@ -50,11 +52,15 @@ router.post('/', async (req, res) => {
                     if (err) {
                         console.log(err);
                     }
-                    res.status(200).cookie('access-token', "Bearer " + token, {
+
+                    // res.setHeader('Set-Cookie', token);
+
+                    res.cookie('access-token', token, {
                         maxAge: 3600000,
-                        httpOnly: true
+                        httpOnly: true,
+                        domain: 'localhost'
                     })
-                    res.json({ status: 'OK', tokenData: token })
+                    res.status(200).json({ status: 'OK', tokenData: token })
                 }
             )
 
