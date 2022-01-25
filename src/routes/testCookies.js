@@ -22,4 +22,15 @@ router.get('/get-cookies', (req, res) => {
     }
 })
 
+router.get('/destroy-cookies', (req, res) => {
+    try {
+        console.log(req.cookies);
+        // res.clearCookie("access-token");
+        // res.clearCookie("newuser");
+        res.status(200).clearCookie("access-token").send("cookie deleted");
+    } catch (err) {
+        console.log(err);
+    }
+})
+
 module.exports = router;
