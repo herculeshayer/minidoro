@@ -2,21 +2,19 @@ const jwt = require('jsonwebtoken');
 
 async function checkCookie (req, res, next) {
 
-    // console.log('checkCookie')
-    // next();
     
     try {
-        console.log('checkCookie');
-        // next();
+
         const cookie = req.cookies['access-token'];
-        // console.log(cookie);
+
         if(cookie === undefined) {
-            res.status(404).send('Cookie Undefined');
+            res.status(403).send('Cookie Undefined');
         }
-        if(cookie !== undefined && validateAuthentication(cookie)) {
-            req.cookieStatusCode = '200';
+
+        if(validateAuthentication(cookie)) {
             next();
         } 
+
     } catch (error) {
         console.log('checkCookieErr', error);
         res.status(401).send("Unauthorized Access")
