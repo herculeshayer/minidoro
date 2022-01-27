@@ -1,11 +1,13 @@
 
-
+import { BrowserRouter, Link, Routes, Route, Navigate } from "react-router-dom";
 import React, { useState } from "react";
 
-import RegisterUser from "../components/Register.HomePage";
-import LoginUser from "../components/Login.HomePage";
 
 
+import Register from "./Register";
+import Login from "./Login";
+import About from "./About";
+import Dashboard from "./Dashboard";
 
 const HomePage = () => {
 
@@ -34,24 +36,38 @@ const HomePage = () => {
      * Experiment with react router to get a feel for it
      * 
      * To get feel---
+     * 
+     * *****************EXPERIMENT SUCCESSFUL!!
      */
 
     return(
         <section className="homepage-wrapper">
+            <BrowserRouter>
+            
             <h1>MiniDoro</h1>
             
-            {
-                register ? <RegisterUser /> : <LoginUser />
-            }
-                <div>
-                    <button type="button" onClick={handleRegister}>register as new user</button>
+                <Routes>
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/" element={<Navigate to="/login" />} />
+                </Routes>
+                {/* {
+                    register ? <RegisterUser /> : <LoginUser />
+                }
+                    <div>
+                        <button type="button" onClick={handleRegister}>register as new user</button>
 
-                    <button type="button" onClick={handleLogin}>login as existing user</button>
-                </div>
-                
-            
-
-
+                        <button type="button" onClick={handleLogin}>login as existing user</button>
+                    </div> */}
+                <nav>
+                    {/* <Link to="/">Home</Link> */}
+                    <Link to="/register">Register</Link>
+                    <Link to="/login">Login</Link>
+                    <Link to="/about">About</Link>
+                </nav>
+            </BrowserRouter>
         </section>
     );
 }
