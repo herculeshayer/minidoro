@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
                     res.cookie('access-token', token, {
                         maxAge: 3600000,
                         httpOnly: true,
-                        domain: process.env.COOKIE_DOMAIN
+                        // domain: process.env.COOKIE_DOMAIN
                     })
                     // res.redirect('http://localhost:3000/dashboard');
                     res.status(200).json({ status: 'OK', tokenData: token })
