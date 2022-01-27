@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import { postRegistrationInformation } from './UserData.HomePage';
+import { postRegistrationInformation } from '../components/requestsAPI';
 
 import { TiArrowRightThick } from 'react-icons/ti';
 
-const RegisterUser = () => {
+const Register = () => {
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -39,5 +39,5 @@ const RegisterUser = () => {
     );
 }
 
-export default RegisterUser;
+export default Register;
 

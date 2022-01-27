@@ -7,17 +7,17 @@ const jwt = require('jsonwebtoken');
 const router = new Router();
 
 
-router.get('/:id', async (req, res) => {
-    try {
-        const rows = await db.asyncQuery('SELECT * FROM users WHERE username = $1', [req.params.id]);
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const rows = await db.asyncQuery('SELECT * FROM users WHERE username = $1', [req.params.id]);
 
-        console.log('cookies', req.cookies);
-        console.log('user', rows.rows[0]);
-        res.send(rows.rows[0]);
-    } catch (error) {
-        throw error;
-    }
-})
+//         console.log('cookies', req.cookies);
+//         console.log('user', rows.rows[0]);
+//         res.send(rows.rows[0]);
+//     } catch (error) {
+//         throw error;
+//     }
+// })
 
 router.post('/', async (req, res) => {
     const { username, password } = req.body;
@@ -58,8 +58,9 @@ router.post('/', async (req, res) => {
                     res.cookie('access-token', token, {
                         maxAge: 3600000,
                         httpOnly: true,
-                        domain: 'localhost'
+                        domain: process.env.COOKIE_DOMAIN
                     })
+                    // res.redirect('http://localhost:3000/dashboard');
                     res.status(200).json({ status: 'OK', tokenData: token })
                 }
             )

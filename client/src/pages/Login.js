@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TiArrowRightThick } from 'react-icons/ti';
 
-import { postLoginInformation } from './UserData.HomePage';
+import { postLoginInformation } from '../components/requestsAPI';
 
-const LoginUser = () => {
+const Login = () => {
 
     const [username, setUsername] = useState([]);
     const [password, setPassword] = useState([]);
 
+    const navigate = useNavigate();
 
     
     const handleSubmit = (event) => {
@@ -20,6 +22,7 @@ const LoginUser = () => {
         postLoginInformation(process.env.REACT_APP_LOGIN_API_URL, {
             username, password
         });
+        navigate('/dashboard');
     }
    
     return (
@@ -40,4 +43,5 @@ const LoginUser = () => {
 
     );
 }
-export default LoginUser;
+
+export default Login;

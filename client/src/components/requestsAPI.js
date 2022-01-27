@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 
@@ -8,8 +8,6 @@ const postLoginInformation = (URL, payload) => {
 
     console.log('URL', URL);
     console.log('payload', payload)
-
-    // let token = 0;
 
     const fetchUserData = async () => {
         await fetch(URL, {
@@ -38,9 +36,6 @@ const postLoginInformation = (URL, payload) => {
         }
         
     fetchUserData();
-        
- 
-
 }
 
 const postRegistrationInformation = (URL, payload) => {
@@ -71,8 +66,31 @@ const postRegistrationInformation = (URL, payload) => {
     fetchUserData();
 }
 
+const getUserDashboardInformation = (URL) => {
+    const [userData, setUserData] = useState([]);
+    const getUserInfo = () => {
+        fetch(URL, {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setUserData(data)
+        })
+    } 
+    useEffect(() => {
+        
+        getUserInfo();
+
+    }, [])
+
+    return userData;
+}
+
 
 export { 
     postLoginInformation,
-    postRegistrationInformation
+    postRegistrationInformation,
+    getUserDashboardInformation
 }
