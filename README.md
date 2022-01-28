@@ -1,11 +1,11 @@
-# MiniDoro ⏰
+# MiniDoro ⏰ - In Development 🔨🪓
 
 
 
 ### Hosting
-https://minidoro.netlify.com/ --> Frontend
+Frontend: https://minidoro.netlify.com/ 
 
-https://minidoro.herokuapp.com/ --> Backend
+Backend: https://minidoro.herokuapp.com/ 
 
 
 ### Application Description
