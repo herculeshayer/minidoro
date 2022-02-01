@@ -15,13 +15,18 @@ app.use(cookieParser());
  * TODO: Need to alter for cross site approach
  * 
  */
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", process.env.DOMAIN_ORIGIN)
-    res.header("Access-Control-Allow-Headers", "Content-Type")
-    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE")
-    res.header("Access-Control-Allow-Credentials", true)
-    next();
-})
+const cors = require('cors');
+app.use(cors({
+    credentials: true,
+    origin: [process.env.DOMAIN_ORIGIN]
+}));
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", process.env.DOMAIN_ORIGIN)
+//     res.header("Access-Control-Allow-Headers", "Content-Type")
+//     res.header("Access-Control-Allow-Methods", "GET, POST, DELETE")
+//     res.header("Access-Control-Allow-Credentials", true)
+//     next();
+// })
 
 app.get('/', (req, res) => {
     res.send('hi');
