@@ -58,6 +58,8 @@ router.post('/', async (req, res) => {
                     res.cookie('access-token', token, {
                         maxAge: 3600000,
                         httpOnly: true,
+                        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+                        secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
                         domain: process.env.COOKIE_DOMAIN
                     })
                     // res.redirect('http://localhost:3000/dashboard');
