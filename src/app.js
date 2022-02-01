@@ -9,6 +9,8 @@ app.use(express.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+app.set("trust proxy", 1);
+
 /**
  * enable cors for all methods
  * 
