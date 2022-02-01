@@ -71,7 +71,8 @@ const getUserDashboardInformation = (URL) => {
     const getUserInfo = () => {
         fetch(URL, {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
+            mode: "cors"
         })
         .then(res => res.json())
         .then(data => {
