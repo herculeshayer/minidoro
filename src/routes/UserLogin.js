@@ -22,10 +22,20 @@ const router = new Router();
 router.post('/', async (req, res) => {
     const { username, password } = req.body;
 
+
     try {
         const databaseUser = await db.asyncQuery('SELECT * FROM users WHERE username = $1', [username])
         const databaseUserName = databaseUser.rows[0].username;
         const databasePassword = databaseUser.rows[0].password;
+
+        /**
+         * Maybe give below a try if everything else doesn't work
+         */
+        // if (req.method === "OPTIONS") {
+        //     res.header('Access-Control-Allow-Origin', req.headers.origin);
+        // } else {
+        //     res.header('Access-Control-Allow-Origin', '*');
+        // }
 
         /**
          * If no password or username is entered, send json response
@@ -51,15 +61,20 @@ router.post('/', async (req, res) => {
                 }, (err, token) => {
                     if (err) {
                         console.log(err);
-                    }
+                    } 
 
+                    if(token) {
+                        res.cookie('access-token', token, {
+                            maxAge: 3600000,
+                            httpOnly: true,
+                            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+                            secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+                            // domain: process.env.COOKIE_DOMAIN
+                        })
+                        
+                    }
                     // res.setHeader('Set-Cookie', token);
 
-                    res.cookie('access-token', token, {
-                        maxAge: 3600000,
-                        httpOnly: true,
-                        // domain: process.env.COOKIE_DOMAIN
-                    })
                     // res.redirect('http://localhost:3000/dashboard');
                     res.status(200).json({ status: 'OK', tokenData: token })
                 }
