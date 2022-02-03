@@ -13,6 +13,9 @@ router.get('/', checkCookie, async (req, res) => {
 
 
     try {
+        
+        // if(req.cookies["access-token"])
+        if(req.cookies["access-token"]) {
             const base64decode = req.cookies["access-token"].split(".")[1];
             const base64 = base64decode.replace(/-/g, '+').replace(/_/g, '/');
             const buff = new Buffer.from(base64, 'base64');
@@ -23,9 +26,12 @@ router.get('/', checkCookie, async (req, res) => {
             const user = await db.asyncQuery('SELECT * FROM users WHERE username = $1', [payload.username])
             
             res.status(200).json({"username": user.rows[0].username, "email": user.rows[0].email});
+        }
+            
         
     } catch (error) {
-        throw error;
+        console.log(error);
+        // throw error;
     }
 })
 
