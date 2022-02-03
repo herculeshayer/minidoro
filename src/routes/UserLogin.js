@@ -31,11 +31,11 @@ router.post('/', async (req, res) => {
         /**
          * Maybe give below a try if everything else doesn't work
          */
-        if (req.method === "OPTIONS") {
-            res.header('Access-Control-Allow-Origin', req.headers.origin);
-        } else {
-            res.header('Access-Control-Allow-Origin', '*');
-        }
+        // if (req.method === "OPTIONS") {
+        //     res.header('Access-Control-Allow-Origin', req.headers.origin);
+        // } else {
+        //     res.header('Access-Control-Allow-Origin', '*');
+        // }
         /**
          * If no password or username is entered, send json response
          */
