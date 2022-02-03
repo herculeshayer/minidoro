@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
         // } else {
         //     res.header('Access-Control-Allow-Origin', '*');
         // }
+
         /**
          * If no password or username is entered, send json response
          */
