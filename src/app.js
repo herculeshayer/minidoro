@@ -20,8 +20,9 @@ app.set("trust proxy", 1);
 const cors = require('cors');
 app.use(cors({
     credentials: true,
-    origin: [process.env.DOMAIN_ORIGIN]
+    origin: true
 }));
+app.options('*', cors());
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", process.env.DOMAIN_ORIGIN)
 //     res.header("Access-Control-Allow-Headers", "Content-Type")
