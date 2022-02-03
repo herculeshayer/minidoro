@@ -20,7 +20,7 @@ app.set("trust proxy", 1);
 const cors = require('cors');
 app.use(cors({
     credentials: true,
-    origin: true
+    origin: process.env.DOMAIN_ORIGIN
 }));
 app.options('*', cors());
 // app.use((req, res, next) => {
