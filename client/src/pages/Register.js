@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { postRegistrationInformation } from '../components/requestsAPI';
 
+import { useNavigate } from 'react-router-dom';
+
 import { TiArrowRightThick } from 'react-icons/ti';
 
 const Register = () => {
@@ -10,7 +12,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -19,7 +21,11 @@ const Register = () => {
             username,
             password,
             email
-        })
+        });
+
+        alert("User Created!");
+
+        navigate('/login');
     }
 
     return (
