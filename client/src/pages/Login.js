@@ -22,6 +22,9 @@ const Login = () => {
         postLoginInformation(process.env.REACT_APP_LOGIN_API_URL, {
             username, password
         });
+
+        alert("Login Successful!");
+
         navigate('/dashboard');
     }
    
