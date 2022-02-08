@@ -1,15 +1,25 @@
-
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { getUserDashboardInformation } from '../components/requestsAPI';
+import { getUserDashboardInformation, getRedirectUser } from '../components/requestsAPI';
 
 const Dashboard = () => {
-    // const userData;
+    const navigate = useNavigate();
 
-    // useEffect(()=> {
+
+    const userRedirect = getRedirectUser(process.env.REACT_APP_REDIRECT_USER);
         
-    // }, [])
+    /**
+     * Redirect is there is NOT cookie present 
+     */
+    useEffect(() => {
+        if(userRedirect === false) {
+            alert("Please login");
+            navigate('/login');
+        }
+    }, [userRedirect])
+    
+    
     
     const userData = getUserDashboardInformation(process.env.REACT_APP_DASHBOARD_API_URL);
 

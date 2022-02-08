@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 
-
-
-
+/**
+ * 
+ * @param {String} URL 
+ * @param {Object: String, String} payload 
+ * 
+ * Object contains username & password
+ * 
+ * Post user information to login API, authenticate user using JWT.verify
+ */
 const postLoginInformation = (URL, payload) => {
-
-    console.log('URL', URL);
-    console.log('payload', payload)
 
     const fetchUserData = async () => {
         await fetch(URL, {
@@ -20,24 +23,19 @@ const postLoginInformation = (URL, payload) => {
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
-            .then(data=> {
-                
-                // token = data;
-                if(data.status === "OK") {
-                    /**
-                     * Redirect to dashboard?
-                     * Dashboard will check for JWT and get all userdata?
-                     */
-                    // window.location('http://localhost:3000/dashboard');
-                }
-                console.log(data)
-            })
             .catch(err => console.log(err))            
         }
         
     fetchUserData();
 }
-
+/**
+ * 
+ * @param {String} URL 
+ * @param {Object: String, String, String} payload 
+ * 
+ * POST user information to registration API 
+ *  
+ */
 const postRegistrationInformation = (URL, payload) => {
     
     const fetchUserData = async () => {
@@ -50,21 +48,22 @@ const postRegistrationInformation = (URL, payload) => {
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
-            .then(data=> {
-                // token = data;
-                if(data.status === "OK") {
-                    /**
-                     * Redirect to login?
-                     * User logs in with registered information
-                     */
-                }
-                console.log(data)
-            })
             .catch(err => console.log(err))            
         }
         
     fetchUserData();
 }
+
+/**
+ * 
+ * @param {String} URL 
+ * @returns Object: String, String
+ * 
+ * Gets userdata if cookie is present & authentic
+ * 
+ * *** MIGHT BE ABLE TO CONSOLIDATE THIS INTO THE REDIRECT API *** 
+ * just a consideration, it seems redundant now upon initial view
+ */
 
 const getUserDashboardInformation = (URL) => {
     const [userData, setUserData] = useState([]);
@@ -76,7 +75,6 @@ const getUserDashboardInformation = (URL) => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             setUserData(data)
         })
     } 
@@ -84,14 +82,59 @@ const getUserDashboardInformation = (URL) => {
         
         getUserInfo();
 
+        return () => getUserInfo();
+
     }, [])
 
     return userData;
 }
 
 
+/**
+ * 
+ * @param {String} URL 
+ * @returns Boolean
+ * 
+ * Checks to see if the cookie is valid, if valid returns true. If false, returns false
+ * Purpose of it is to redirect between login & dashboard if user is authenticated or not
+ */
+const getRedirectUser =  (URL) => {
+    const [ validCookie, setValidCookie ] = useState(0);
+
+    let controller = new AbortController();
+
+    const getResponse = () => {
+        fetch(URL, {
+            method: "GET",
+            signal: controller.signal,
+            credentials: "include",
+            mode: "cors"
+        })
+        .then(res => {
+            if(res.status == 200) {
+                console.log('Cookie Valid')
+                setValidCookie(true);
+            } 
+            if(res.status == 403) {
+                console.log('Cookie Invalid')
+                setValidCookie(false);
+            }
+        })
+        .catch(err => console.log(err))
+    }
+   useEffect(() => {
+       getResponse();
+
+       return () => controller.abort();
+   }, [])
+    // getResponse();
+    return validCookie;
+}
+
+
 export { 
     postLoginInformation,
     postRegistrationInformation,
-    getUserDashboardInformation
+    getUserDashboardInformation,
+    getRedirectUser
 }
