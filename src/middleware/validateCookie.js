@@ -29,6 +29,12 @@ async function checkCookie (req, res, next) {
 function validateAuthentication(cookieToken) {
     var flag;
     try {
+        if(cookieToken) {
+
+            return jwt.verify(cookieToken, process.env.JWT_SECRET)
+        } else {
+            console.log('valid JWT not present in cookie');
+        }
         
         if(cookieToken) { 
             jwt.verify(cookieToken, process.env.JWT_SECRET);
@@ -42,7 +48,6 @@ function validateAuthentication(cookieToken) {
         console.log('JWT is not verified', error);
         // res.status(403).send("Unverified JWT, please login")
     } finally {
-
         return flag;
     }
 }
