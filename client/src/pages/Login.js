@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TiArrowRightThick } from 'react-icons/ti';
 
-import { postLoginInformation } from '../components/requestsAPI';
+import { postLoginInformation, getRedirectUser } from '../components/requestsAPI';
 
 const Login = () => {
 
@@ -10,18 +10,28 @@ const Login = () => {
     const [password, setPassword] = useState([]);
 
     const navigate = useNavigate();
+    
 
+    const userRedirect = getRedirectUser(process.env.REACT_APP_REDIRECT_USER);
+
+    /**
+     * Redirect if there is cookie present 
+     */
+    useEffect(() => {
+        if(userRedirect === true) {
+            alert("You've already logged in");
+            navigate('/dashboard')  
+        }
+    }, [userRedirect])
     
     const handleSubmit = (event) => {
         event.preventDefault();
-       
-
-        console.log(username);
-        console.log(password);
 
         postLoginInformation(process.env.REACT_APP_LOGIN_API_URL, {
             username, password
         });
+
+        alert("Login Successful!");
         navigate('/dashboard');
     }
    
@@ -36,8 +46,6 @@ const Login = () => {
                     <button type="submit" style={{fontSize: 25}}><TiArrowRightThick /></button>
                 </div>
             </form>
-            
-
         </section>
         
 

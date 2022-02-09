@@ -9,5 +9,5 @@ module.exports = app => {
   app.use('/api/login', userLogin)
   app.use('/api/reset-password', resetPassword)
   app.use('/api/dashboard', userDashboard)
-  app.use('/api/test', testCookies)
+  app.use('/api/testcookie', testCookies)
 }
