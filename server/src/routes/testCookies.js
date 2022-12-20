@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { checkCookie, validateAuthentication } = require('./../middleware/validateCookie');
+const { checkCookie, validateAuthentication } = require('../middleware/validateCookie');
 
 // router.get('/set-cookies', (req, res) => {
 //     try {
