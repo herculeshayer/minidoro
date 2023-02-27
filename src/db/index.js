@@ -27,7 +27,6 @@ if(process.env.NODE_ENV == 'production') {
     pool.on('error', err => console.log(err));
 
 
-
     module.exports = {
         query: (text, params, callback) => {
             return pool.query(text, params, callback)
@@ -47,7 +46,24 @@ if(process.env.NODE_ENV == 'production') {
         connectionTimeoutMillis: 2000,
         ssl: false,
     });
-    pool.on('connect', ()=> console.log('Connection Successful'));
+    pool.on('connect', () => {
+        console.log('Connection Successful');
+        pool.query(`CREATE TABLE IF NOT EXISTS users (
+            user_id serial PRIMARY KEY,
+            username VARCHAR(50) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )`, [], (err, result) => {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log(result);
+                }
+        })
+
+    });
+    
     pool.on('error', err => console.log(err));
 
     module.exports = {
