@@ -4,7 +4,7 @@ import tomatoImg from './../assets/tomato-icon.svg'
 const About = () => {
     return (
         <>
-            <p style={{fontSize: "20px", paddingBottom: "2rem"}}>Application underdevelopment</p>
+            <p style={{fontSize: "20px", paddingBottom: "2rem"}}>Application in development</p>
             <img src={tomatoImg} alt="tomato" style={{height: "35%", paddingBottom: "5%"}}/>
 
             <p>Welcome - this is a pomodoro timer application</p>
