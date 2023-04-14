@@ -1,0 +1,17 @@
+.nav-wrapper {
+  margin: 50px;
+
+  .navbar-item {
+    padding: 0.7%;
+    color: black;
+    text-decoration: none;
+
+
+  }
+  .navbar-item:hover {
+    transition: all 0.3s ease-in-out 0s;
+    font-size: 1.7rem;
+
+  }
+}
+
