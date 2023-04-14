@@ -22,12 +22,12 @@ const HomePage = () => {
         <section className="homepage-wrapper">
             <BrowserRouter>
             
-                <nav>
+                <nav className="nav-wrapper">
                     {/* <Link to="/">Home</Link> */}
-                    <Link to="/register">Register</Link>
-                    <Link to="/login">Login</Link>
-                    <Link to="/dashboard">Dashboard</Link>
-                    <Link to="/about">About</Link>
+                    <Link className="navbar-item" to="/register">Register</Link>
+                    <Link className="navbar-item" to="/login">Login</Link>
+                    <Link className="navbar-item" to="/dashboard">Dashboard</Link>
+                    <Link className="navbar-item" to="/about">About</Link>
                 </nav>
                 <h1>MiniDoro</h1>
             

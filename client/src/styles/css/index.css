@@ -31,6 +31,19 @@
   transform: scale(1.1);
 }
 
+.nav-wrapper {
+  margin: 50px;
+}
+.nav-wrapper .navbar-item {
+  padding: 0.7%;
+  color: black;
+  text-decoration: none;
+}
+.nav-wrapper .navbar-item:hover {
+  transition: all 0.3s ease-in-out 0s;
+  font-size: 1.7rem;
+}
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
