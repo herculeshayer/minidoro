@@ -2,7 +2,7 @@
 
 ### Hosting
 
-Frontend: https://minidoro.netlify.com/
+Frontend: https://minidoro.hhayer.ca/
 
 ~~ Backend:~~
 Render?
