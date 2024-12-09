@@ -1,77 +1,48 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const { Pool, defaults } = require('pg');
-/*
-    Convoluted method of using a production DB
-    and a local dev DB... but it works and im going to use it 
-*/
+const { Pool, defaults } = require("pg");
 
-// if(process.env.NODE_ENV == 'development') {
-//     console.log('from development db');
-    
-// }
-if(process.env.NODE_ENV == 'production') {
-    const pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        max: 20,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 2000,
-        ssl: true,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    });
+if (process.env.NODE_ENV == "production") {
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URI,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
 
-    pool.on('connect', ()=> console.log('Connection Successful'));
-   
-    pool.on('error', err => console.log(err));
+  pool.on("connect", () => console.log("Connection Successful"));
+  pool.on("error", (err) => console.log(err));
 
-
-    module.exports = {
-        query: (text, params, callback) => {
-            return pool.query(text, params, callback)
-        },
-        asyncQuery: (text, params) => pool.query(text, params),
-    }
-
-} else {
-    const pool = new Pool({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        port: process.env.DB_PORT,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        max: 20,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 2000,
-        ssl: false,
-    });
-    pool.on('connect', () => {
-        console.log('Connection Successful');
-        pool.query(`CREATE TABLE IF NOT EXISTS users (
-            user_id serial PRIMARY KEY,
-            username VARCHAR(50) UNIQUE NOT NULL,
-            password VARCHAR(255) NOT NULL,
-            email VARCHAR(255) UNIQUE NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )`, [], (err, result) => {
-                if(err) {
-                    console.log(err);
-                } else {
-                    console.log(result);
-                }
-        })
-
-    });
-    
-    pool.on('error', err => console.log(err));
-
-    module.exports = {
-        query: (text, params, callback) => {
-            return pool.query(text, params, callback)
-        },
-        asyncQuery: (text, params) => pool.query(text, params),
-    }
+  module.exports = {
+    query: (text, params, callback) => {
+      return pool.query(text, params, callback);
+    },
+    asyncQuery: (text, params) => pool.query(text, params),
+  };
 }
+if (process.env.NODE_ENV == "development") {
+  const pool = new Pool({
+    host: process.env.POSTGRES_HOST,
+    user: process.env.POSTGRES_USER,
+    port: process.env.POSTGRES_PORT,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    ssl: false,
+  });
+  pool.on("connect", () => console.log("Connection Successful"));
+  pool.on("error", (err) => console.log(err));
 
-
+  module.exports = {
+    query: (text, params, callback) => {
+      return pool.query(text, params, callback);
+    },
+    asyncQuery: (text, params) => pool.query(text, params),
+  };
+}
