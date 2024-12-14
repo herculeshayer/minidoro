@@ -9,7 +9,7 @@
     "dev": "nodemon src/app.js",
     "db-init": "node src/db/setup.js",
     "build": "npm run db-init && npm run start",
-    "test-build": "npm run start && npm run db-initt"
+    "test-build": "npm run start && npm run db-init"
   },
   "repository": {
     "type": "git",
