@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const { Client } = require("pg");
 
+
 async function createUserTable(client) {
   try {
     const result = await client.query(
@@ -54,8 +55,13 @@ async function setup() {
       },
     });
 
-    createUserTable(client);
-    createTestUser(client);
+    await client.connect();
+    await createUserTable(client);
+    await createTestUser(client);
+    await client.end();
+
+
+    
   }
 
   if (process.env.NODE_ENV == "development") {
@@ -73,10 +79,12 @@ async function setup() {
       ssl: false,
     });
 
+
     await client.connect();
     await createUserTable(client);
     await createTestUser(client);
     await client.end();
+
   }
 }
 
