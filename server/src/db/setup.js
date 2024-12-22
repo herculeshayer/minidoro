@@ -2,30 +2,40 @@ require("dotenv").config();
 
 const { Client } = require("pg");
 
-async function createTestUser(client) {
-  const result = await client.query(
-    `insert into users (username, password, email) values ('test', '123123', 'test@test.ca');`
-  );
-  console.log("createTestUser", result);
-}
 
 async function createUserTable(client) {
-  await client.connect(() => console.log("Connection Successful"));
+  try {
+    const result = await client.query(
+      `create table if not exists users(
+      userid uuid default gen_random_uuid(),
+      username varchar(50) unique not null,
+      password varchar(255) not null,
+      email varchar(255) unique not null,
+      created_at timestamp default current_timestamp,
+      primary key (userid)
+    );`
+    );
+    console.log("createUserTable", result);
 
-  const result = await client.query(
-    `create table if not exists users(
-    userid uuid default gen_random_uuid(),
-    username varchar(50) unique not null,
-    password varchar(255) not null,
-    email varchar(255) unique not null,
-    created_at timestamp default current_timestamp,
-    primary key (userid)
-  );`
-  );
-  console.log("createUserTable", result);
+    console.log("Closing createUserTable connection");
+  } catch (error) {
+    throw error;
+  }
+}
 
-  await client.end();
-  console.log("Closing Connection");
+async function createTestUser(client) {
+  try {
+    const result = await client.query(
+      `insert into users (username, password, email) 
+      values ('test', '123123', 'test@test.ca') 
+      on conflict do nothing;`
+    );
+    console.log("createTestUser", result);
+
+    console.log("Closing createTestUser connection");
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function setup() {
@@ -44,8 +54,14 @@ async function setup() {
         rejectUnauthorized: false,
       },
     });
-    createUserTable(client);
-    createTestUser(client);
+
+    await client.connect();
+    await createUserTable(client);
+    await createTestUser(client);
+    await client.end();
+
+
+    
   }
 
   if (process.env.NODE_ENV == "development") {
@@ -62,8 +78,13 @@ async function setup() {
       connectionTimeoutMillis: 2000,
       ssl: false,
     });
-    createUserTable(client);
-    createTestUser(client);
+
+
+    await client.connect();
+    await createUserTable(client);
+    await createTestUser(client);
+    await client.end();
+
   }
 }
 
