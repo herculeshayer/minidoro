@@ -7,7 +7,7 @@ import {
   getRedirectUser,
 } from "../components/requestsAPI";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState([]);
   const [password, setPassword] = useState([]);
 
@@ -25,13 +25,14 @@ const Login = () => {
     }
   }, [userRedirect]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     postLoginInformation(process.env.REACT_APP_LOGIN_API_URL, {
       username,
       password,
     });
+    onLogin(true);
 
     alert("Login Successful!");
     navigate("/dashboard");
