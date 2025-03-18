@@ -28,14 +28,21 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    postLoginInformation(process.env.REACT_APP_LOGIN_API_URL, {
-      username,
-      password,
-    });
-    onLogin(true);
-
-    alert("Login Successful!");
-    navigate("/dashboard");
+    const success = await postLoginInformation(
+      process.env.REACT_APP_LOGIN_API_URL,
+      {
+        username,
+        password,
+      }
+    );
+    console.log("Login: ", success);
+    if (success) {
+      onLogin(true);
+      alert("Login Successful!");
+      navigate("/dashboard");
+    } else {
+      alert("Login False");
+    }
   };
 
   return (
