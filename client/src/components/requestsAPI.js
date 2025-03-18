@@ -11,7 +11,7 @@ import React, { useState, useEffect } from "react";
  */
 const postLoginInformation = (URL, payload) => {
   const fetchUserData = async () => {
-    await fetch(URL, {
+    const response = await fetch(URL, {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -19,9 +19,29 @@ const postLoginInformation = (URL, payload) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
-    })
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+    });
+
+    const data = await response.json();
+
+    console.log("postLoginInformation: response: ", response);
+
+    if (!response.ok) {
+      return false;
+    } else {
+      console.log("hit");
+      return true;
+    }
+    //     .then((res) => {
+    //       console.log("RES: ", res);
+    //       if (res.status == "200") {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
+    // ;
   };
 
   fetchUserData();
