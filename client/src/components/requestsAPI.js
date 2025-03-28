@@ -9,7 +9,7 @@ import React, { useState, useEffect } from "react";
  *
  * Post user information to login API, authenticate user using JWT.verify
  */
-const postLoginInformation = (URL, payload) => {
+const postLoginInformation = async (URL, payload) => {
   const fetchUserData = async () => {
     const response = await fetch(URL, {
       method: "POST",
@@ -31,20 +31,9 @@ const postLoginInformation = (URL, payload) => {
       console.log("hit");
       return true;
     }
-    //     .then((res) => {
-    //       console.log("RES: ", res);
-    //       if (res.status == "200") {
-    //         return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     })
-    //     .catch((err) => console.log(err));
-    // }
-    // ;
   };
 
-  fetchUserData();
+  return await fetchUserData();
 };
 /**
  *
