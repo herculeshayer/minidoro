@@ -11,5 +11,5 @@ module.exports = (app) => {
   app.use("/api/logout", userLogout);
   app.use("/api/reset-password", resetPassword);
   app.use("/api/dashboard", userDashboard);
-  app.use("/api/testcookie", testCookies);
+  app.use("/api/validate-cookie", testCookies);
 };
