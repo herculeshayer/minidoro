@@ -20,6 +20,7 @@ const Login = ({ onLogin }) => {
    */
   useEffect(() => {
     if (userRedirect === true) {
+      onLogin(true);
       alert("You've already logged in");
       navigate("/dashboard");
     }
@@ -35,7 +36,7 @@ const Login = ({ onLogin }) => {
         password,
       }
     );
-    console.log("Login: ", success);
+
     if (success) {
       onLogin(true);
       alert("Login Successful!");

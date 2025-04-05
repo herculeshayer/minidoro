@@ -28,7 +28,6 @@ const postLoginInformation = async (URL, payload) => {
     if (!response.ok) {
       return false;
     } else {
-      console.log("hit");
       return true;
     }
   };
