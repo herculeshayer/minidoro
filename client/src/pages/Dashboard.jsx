@@ -9,7 +9,7 @@ import {
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const userRedirect = getRedirectUser(process.env.REACT_APP_REDIRECT_USER);
+  const userRedirect = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
 
   /**
    * Redirect is there is NOT cookie present
@@ -22,7 +22,7 @@ const Dashboard = () => {
   }, [userRedirect]);
 
   const userData = getUserDashboardInformation(
-    process.env.REACT_APP_DASHBOARD_API_URL
+    import.meta.env.VITE_DASHBOARD_API_URL
   );
 
   const [timer, setTimer] = useState(1500); //1500seconds = 25min

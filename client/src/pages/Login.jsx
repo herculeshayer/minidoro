@@ -13,7 +13,7 @@ const Login = ({ onLogin }) => {
 
   const navigate = useNavigate();
 
-  const userRedirect = getRedirectUser(process.env.REACT_APP_REDIRECT_USER);
+  const userRedirect = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
 
   /**
    * Redirect if there is cookie present
@@ -30,7 +30,7 @@ const Login = ({ onLogin }) => {
     event.preventDefault();
 
     const success = await postLoginInformation(
-      process.env.REACT_APP_LOGIN_API_URL,
+      import.meta.env.VITE_LOGIN_API_URL,
       {
         username,
         password,

@@ -6,7 +6,7 @@ export default function Logout({ onLogout }) {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-      fetch(process.env.REACT_APP_LOGOUT_API_URL, {
+      fetch(import.meta.env.VITE_LOGOUT_API_URL, {
         method: "GET",
         credentials: "include",
         mode: "cors",
