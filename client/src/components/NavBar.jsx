@@ -1,11 +1,11 @@
 import { BrowserRouter, Link, Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
-import Register from "./../pages/Register";
-import Login from "./../pages/Login";
-import Logout from "./../pages/Logout";
-import About from "./../pages/About";
-import Dashboard from "./../pages/Dashboard";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
+import Logout from "../pages/Logout";
+import About from "../pages/About";
+import Dashboard from "../pages/Dashboard";
 
 import { getRedirectUser } from "./requestsAPI";
 
@@ -15,7 +15,7 @@ export default function NavBar() {
   useEffect(() => {
     // Check cookie validity and update the state
     const checkAuthStatus = async () => {
-      const result = await getRedirectUser(process.env.REACT_APP_REDIRECT_USER);
+      const result = await getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
       setIsAuthenticated(result);
     };
 
