@@ -52,7 +52,7 @@ export default function NavBar() {
         />
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
