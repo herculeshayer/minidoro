@@ -15,7 +15,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sass": "sass --watch src/styles/sass/index.scss src/styles/css/index.css"
   },
   "browserslist": {
     "production": [
