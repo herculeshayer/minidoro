@@ -12,9 +12,9 @@ import ShowCasePage from "./pages/ShowCasePage";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ShowCasePage />
+    {/* <ShowCasePage /> */}
 
-    {/* <HomePage /> */}
+    <HomePage />
   </React.StrictMode>,
   document.getElementById("root")
 );

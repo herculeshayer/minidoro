@@ -74,12 +74,11 @@ const Dashboard = () => {
     <section class="user-dashboard">
       {/* <h1>Dashboard</h1> */}
       <div>
-        <h2>{userData.username} dashboard</h2>
+        {/* <h2>{userData.username} dashboard</h2> */}
         {/* <h3>{userData.email}</h3> */}
-        <h1>
+        <button class="timer-button" onClick={handleSubmit}>
           {minutes}:{seconds}
-        </h1>
-        <button onClick={handleSubmit}>{startTimer ? "pause" : "start"}</button>
+        </button>
       </div>
       <div>
         <h6>
@@ -90,10 +89,10 @@ const Dashboard = () => {
             : ""}
         </h6>
 
-        <h3 style={{ marginTop: "50px" }}>
+        {/* <h3 style={{ marginTop: "50px" }}>
           Work Intervals Completed: {localStorage.getItem("work-interval")}
         </h3>
-        <button onClick={handleReset}>Reset Work Intervals</button>
+        <button onClick={handleReset}>Reset Work Intervals</button> */}
       </div>
     </section>
   );

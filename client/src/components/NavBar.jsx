@@ -41,7 +41,7 @@ export default function NavBar() {
           About
         </Link>
       </nav>
-      <h1>MiniDoro</h1>
+      {/* <h1>MiniDoro</h1> */}
 
       <Routes>
         <Route path="/register" element={<Register />} />
@@ -52,7 +52,7 @@ export default function NavBar() {
         />
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/" element={<Navigate to="/" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </div>
   );
