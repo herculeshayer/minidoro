@@ -6,14 +6,11 @@ import {
   getRedirectUser,
 } from "../components/requestsAPI";
 
-const Dashboard = () => {
+const Dashboard = async () => {
   const navigate = useNavigate();
 
   const userRedirect = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
 
-  /**
-   * Redirect is there is NOT cookie present
-   */
   useEffect(() => {
     if (userRedirect === false) {
       alert("Please login");
@@ -29,10 +26,32 @@ const Dashboard = () => {
   const [startTimer, setStartTimer] = useState(false);
   const [workIntervalCount, setWorkIntervalCount] = useState(0);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStartTimer(!startTimer);
     if (timer === 0) {
+      try {
+        const response = await fetch(
+          import.meta.env.VITE_POST_USER_POMODORO_DATA,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer ",
+            },
+            body: JSON.stringify(pomodoroPayload),
+          }
+        );
+
+        if (!response.ok) {
+          console.log(
+            "/Dashboard: HandleSubmit: Fetch Response: ",
+            response.json()
+          );
+        }
+      } catch (error) {
+        console.warn("/Dashboard Error: ", error);
+      }
       setTimer(1500);
     }
   };
@@ -55,7 +74,6 @@ const Dashboard = () => {
   useEffect(() => {
     if (timer < 1 && startTimer) {
       setStartTimer(false);
-      // setTimer(5);
       setWorkIntervalCount((count) => count + 1);
       localStorage.setItem("work-interval", workIntervalCount + 1);
     }
@@ -63,19 +81,10 @@ const Dashboard = () => {
 
   const seconds = String(timer % 60).padStart(2, 0);
   const minutes = String(Math.floor(timer / 60)).padStart(2, 0);
-  // console.log(seconds);
-  // console.log(minutes);
-  // if()
-  // if(localStorage.getItem("work-interval") % 4 === 0) {
-  //     // alert("You've completed 4 work sessions in row, time for a break!");
-  // }
 
   return (
     <section class="user-dashboard">
-      {/* <h1>Dashboard</h1> */}
       <div>
-        {/* <h2>{userData.username} dashboard</h2> */}
-        {/* <h3>{userData.email}</h3> */}
         <button class="timer-button" onClick={handleSubmit}>
           {minutes}:{seconds}
         </button>
@@ -88,11 +97,6 @@ const Dashboard = () => {
             ? "You've completed 4 work sessions in row, time for a break!"
             : ""}
         </h6>
-
-        {/* <h3 style={{ marginTop: "50px" }}>
-          Work Intervals Completed: {localStorage.getItem("work-interval")}
-        </h3>
-        <button onClick={handleReset}>Reset Work Intervals</button> */}
       </div>
     </section>
   );
