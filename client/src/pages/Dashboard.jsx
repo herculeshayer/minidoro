@@ -11,9 +11,6 @@ const Dashboard = () => {
 
   const userRedirect = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
 
-  /**
-   * Redirect is there is NOT cookie present
-   */
   useEffect(() => {
     if (userRedirect === false) {
       alert("Please login");
@@ -25,22 +22,58 @@ const Dashboard = () => {
     import.meta.env.VITE_DASHBOARD_API_URL
   );
 
-  const [timer, setTimer] = useState(1500); //1500seconds = 25min
+  // const [timer, setTimer] = useState(1500); //1500seconds = 25min
+  const [timer, setTimer] = useState(10); //TESTING WITH 10SECONDS
   const [startTimer, setStartTimer] = useState(false);
   const [workIntervalCount, setWorkIntervalCount] = useState(0);
+  const [pomodoroComplete, setPomodoroComplete] = useState(false);
 
-  const handleSubmit = (e) => {
+  // useEffect(() => {
+  //   const submitInfo = async () => {
+  //   submitInfo();
+  // }, [pomodoroComplete]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStartTimer(!startTimer);
     if (timer === 0) {
-      setTimer(1500);
+      setPomodoroComplete(true);
+
+      try {
+        const response = await fetch(
+          import.meta.env.VITE_POST_USER_POMODORO_DATA,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer ",
+            },
+            body: JSON.stringify(pomodoroComplete),
+          }
+        );
+        if (await !response.ok) {
+          console.log(
+            "/Dashboard: HandleSubmit: Fetch Response: ",
+            await response.json()
+          );
+        } else {
+          console.log(await response.json());
+          setPomodoroComplete(false);
+        }
+      } catch (error) {
+        console.warn("/Dashboard Error: ", error);
+      }
+      //CHANGE BACCK AFTER TESTING
+      // setTimer(1500);
+      // set to 10seconds for testing purposes
+      setTimer(10);
     }
   };
-  const handleReset = (e) => {
-    e.preventDefault();
-    localStorage.setItem("work-interval", 0);
-    setWorkIntervalCount(0);
-  };
+  // const handleReset = (e) => {
+  //   e.preventDefault();
+  //   localStorage.setItem("work-interval", 0);
+  //   setWorkIntervalCount(0);
+  // };
 
   useEffect(() => {
     let countdownTimer;
@@ -55,7 +88,6 @@ const Dashboard = () => {
   useEffect(() => {
     if (timer < 1 && startTimer) {
       setStartTimer(false);
-      // setTimer(5);
       setWorkIntervalCount((count) => count + 1);
       localStorage.setItem("work-interval", workIntervalCount + 1);
     }
@@ -63,37 +95,22 @@ const Dashboard = () => {
 
   const seconds = String(timer % 60).padStart(2, 0);
   const minutes = String(Math.floor(timer / 60)).padStart(2, 0);
-  // console.log(seconds);
-  // console.log(minutes);
-  // if()
-  // if(localStorage.getItem("work-interval") % 4 === 0) {
-  //     // alert("You've completed 4 work sessions in row, time for a break!");
-  // }
 
   return (
     <section class="user-dashboard">
-      {/* <h1>Dashboard</h1> */}
       <div>
-        <h2>{userData.username} dashboard</h2>
-        {/* <h3>{userData.email}</h3> */}
-        <h1>
+        <button class="timer-button" onClick={handleSubmit}>
           {minutes}:{seconds}
-        </h1>
-        <button onClick={handleSubmit}>{startTimer ? "pause" : "start"}</button>
+        </button>
       </div>
       <div>
         <h6>
-          {localStorage.getItem("work-interval") % 4 === 0 &&
+          {/* {localStorage.getItem("work-interval") % 4 === 0 &&
           startTimer === false &&
           workIntervalCount !== 0
             ? "You've completed 4 work sessions in row, time for a break!"
-            : ""}
+            : ""} */}
         </h6>
-
-        <h3 style={{ marginTop: "50px" }}>
-          Work Intervals Completed: {localStorage.getItem("work-interval")}
-        </h3>
-        <button onClick={handleReset}>Reset Work Intervals</button>
       </div>
     </section>
   );
