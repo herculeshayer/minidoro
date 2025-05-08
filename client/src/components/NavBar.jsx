@@ -41,7 +41,6 @@ export default function NavBar() {
           About
         </Link>
       </nav>
-      {/* <h1>MiniDoro</h1> */}
 
       <Routes>
         <Route path="/register" element={<Register />} />
