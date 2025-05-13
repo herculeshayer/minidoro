@@ -4,6 +4,7 @@ const userLogout = require("./UserLogout");
 const resetPassword = require("./ResetPassword");
 const userDashboard = require("./UserDashboard");
 const testCookies = require("./TestCookies");
+const userTimer = require("./UserTimer");
 
 module.exports = (app) => {
   app.use("/api/register", usersRegistration);
@@ -12,4 +13,5 @@ module.exports = (app) => {
   app.use("/api/reset-password", resetPassword);
   app.use("/api/dashboard", userDashboard);
   app.use("/api/validate-cookie", testCookies);
+  app.use("/api/timer", userTimer);
 };
