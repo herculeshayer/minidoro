@@ -22,12 +22,22 @@ router.post("/completed-pomodoro", checkCookie, async (req, res) => {
     const cookie = req.cookies["access-token"];
 
     const sessionDate = req.headers["date-iso"];
-    const dateOptions = { year: "numeric", day: "2-digit", month: "long" };
-    const sessionDateFormat = new Date(sessionDate).toLocaleString(
-      "en-us",
+    console.log("Client Sessions Date: ", sessionDate);
+    const dateOptions = { day: "2-digit", month: "long", year: "numeric" };
+
+    const localDate = new Date(sessionDate).toLocaleString(
+      "en-GB",
       dateOptions
     );
-    console.log("sessiondateformat: ", sessionDateFormat);
+
+    const sessionDateFormatIntl = new Date(sessionDate);
+    const intlDateOptions = { dateStyle: "long" };
+    const intlFormat = new Intl.DateTimeFormat("en-GB", intlDateOptions).format(
+      sessionDateFormatIntl
+    );
+    console.log("sessiondateformat: ", localDate);
+    console.log("intlFormat: ", intlFormat);
+
     const decodedJWT = jwt.decode(cookie);
 
     const jwtusername = decodedJWT.username;
@@ -36,6 +46,8 @@ router.post("/completed-pomodoro", checkCookie, async (req, res) => {
     /**
      *  0. have client send their Date.now() with localtimezone
      *  1. get users local time zone from req.body
+     *
+     *
      *  2. convert users local time to session date format("dd-mm-yyyy")
      *  3. query db for user with calculated session date
      *  4. if sessiondate does not exist, create new entry for the day
