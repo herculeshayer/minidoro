@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const { Client } = require("pg");
 
-
 async function createUserTable(client) {
   try {
     const result = await client.query(
@@ -38,6 +37,26 @@ async function createTestUser(client) {
   }
 }
 
+async function createPomodoroTable(client) {
+  try {
+    const result = await client.query(
+      `         create table if not exists pomodoros(
+	sessionid uuid default gen_random_uuid(),
+	userid uuid unique not null,
+	pomodorocount int not null,
+	sessiondate date not null,
+	created_at timestamptz default current_timestamp, 
+	primary key(sessionid),
+	constraint fk_userid
+		foreign key(userid)
+			references users(userid)
+);`
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function setup() {
   console.log("Running PSQL Setup Script");
 
@@ -58,10 +77,8 @@ async function setup() {
     await client.connect();
     await createUserTable(client);
     await createTestUser(client);
+    await createPomodoroTable(client);
     await client.end();
-
-
-    
   }
 
   if (process.env.NODE_ENV == "development") {
@@ -79,12 +96,11 @@ async function setup() {
       ssl: false,
     });
 
-
     await client.connect();
     await createUserTable(client);
     await createTestUser(client);
+    await createPomodoroTable(client);
     await client.end();
-
   }
 }
 
