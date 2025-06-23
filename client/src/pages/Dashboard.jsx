@@ -22,35 +22,30 @@ const Dashboard = () => {
     import.meta.env.VITE_DASHBOARD_API_URL
   );
 
-  // const [timer, setTimer] = useState(1500); //1500seconds = 25min
-  const [timer, setTimer] = useState(10); //TESTING WITH 10SECONDS
+  const [timer, setTimer] = useState(3); //TESTING WITH 10SECONDS
   const [startTimer, setStartTimer] = useState(false);
   const [workIntervalCount, setWorkIntervalCount] = useState(0);
   const [pomodoroComplete, setPomodoroComplete] = useState(false);
 
-  // useEffect(() => {
-  //   const submitInfo = async () => {
-  //   submitInfo();
-  // }, [pomodoroComplete]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStartTimer(!startTimer);
+
     if (timer === 0) {
       setPomodoroComplete(true);
 
       try {
-        const response = await fetch(
-          import.meta.env.VITE_POST_USER_POMODORO_DATA,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer ",
-            },
-            body: JSON.stringify(pomodoroComplete),
-          }
-        );
+        const date = new Date();
+        console.log("Date: ", date);
+        const response = await fetch(import.meta.env.VITE_USER_POMODORO_DATA, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "date-iso": date,
+          },
+          mode: "cors",
+          credentials: "include",
+        });
         if (await !response.ok) {
           console.log(
             "/Dashboard: HandleSubmit: Fetch Response: ",
@@ -66,14 +61,9 @@ const Dashboard = () => {
       //CHANGE BACCK AFTER TESTING
       // setTimer(1500);
       // set to 10seconds for testing purposes
-      setTimer(10);
+      setTimer(3);
     }
   };
-  // const handleReset = (e) => {
-  //   e.preventDefault();
-  //   localStorage.setItem("work-interval", 0);
-  //   setWorkIntervalCount(0);
-  // };
 
   useEffect(() => {
     let countdownTimer;
@@ -102,15 +92,6 @@ const Dashboard = () => {
         <button class="timer-button" onClick={handleSubmit}>
           {minutes}:{seconds}
         </button>
-      </div>
-      <div>
-        <h6>
-          {/* {localStorage.getItem("work-interval") % 4 === 0 &&
-          startTimer === false &&
-          workIntervalCount !== 0
-            ? "You've completed 4 work sessions in row, time for a break!"
-            : ""} */}
-        </h6>
       </div>
     </section>
   );
