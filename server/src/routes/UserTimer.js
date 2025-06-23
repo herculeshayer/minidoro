@@ -7,64 +7,99 @@ const db = require("../db");
 
 const { checkCookie } = require("../middleware/validateCookie");
 
-router.get("/completed-pomodoro", checkCookie, async (req, res) => {
-  try {
-    const cookie = req.cookies["access-token"];
-    console.log("Request Cookie: ", cookie);
+/**
+ * get all pomodoros completed for a (1day, 7day, 30day, 365day)
+ */
+// router.get("/completed-pomodoro", checkCookie, async (req, res) => {
+//   try {
+//     const cookie = req.cookies["access-token"];
+//     console.log("Request Cookie: ", cookie);
 
-    res.send(req.headers).status(200);
-  } catch (error) {
-    console.warn("/api/timer/completed-pomodoro", error);
-  }
-});
+//     res.send(req.headers).status(200);
+//   } catch (error) {
+//     console.warn("/api/timer/completed-pomodoro", error);
+//   }
+// });
+
 router.post("/completed-pomodoro", checkCookie, async (req, res) => {
   try {
     const cookie = req.cookies["access-token"];
+    console.log("Headers: ", req.headers);
 
     const sessionDate = req.headers["date-iso"];
     console.log("Client Sessions Date: ", sessionDate);
-    const dateOptions = { day: "2-digit", month: "long", year: "numeric" };
 
-    const localDate = new Date(sessionDate).toLocaleString(
-      "en-GB",
-      dateOptions
-    );
+    console.log("Body: ", req.body);
 
     const sessionDateFormatIntl = new Date(sessionDate);
-    const intlDateOptions = { dateStyle: "long" };
-    const intlFormat = new Intl.DateTimeFormat("en-GB", intlDateOptions).format(
+    const intlDateOptions = { dateStyle: "short" };
+    const intlFormat = new Intl.DateTimeFormat("en-CA", intlDateOptions).format(
       sessionDateFormatIntl
     );
-    console.log("sessiondateformat: ", localDate);
-    console.log("intlFormat: ", intlFormat);
+    console.log("intl: ", intlFormat);
 
     const decodedJWT = jwt.decode(cookie);
 
     const jwtusername = decodedJWT.username;
     const jwtemail = decodedJWT.email;
 
-    /**
-     *  0. have client send their Date.now() with localtimezone
-     *  1. get users local time zone from req.body
-     *
-     *
-     *  2. convert users local time to session date format("dd-mm-yyyy")
-     *  3. query db for user with calculated session date
-     *  4. if sessiondate does not exist, create new entry for the day
-     *  5. if sessiondate does exist, update pomodorocount
-     *
-     */
+    console.log("jwtusername: ", jwtusername);
 
-    const query = "insert";
-    // if (String(jwtusername).length && String(jwtemail).length > 0) {
-    //   db.asyncQuery(`select username from pomodoros where date = ${time});`);
-    // }
+    console.log("jwtemail: ", jwtemail);
 
-    if (true) {
-      res.send("Good").status(201);
-    } else {
-      res.send("Not Created").status(400);
+    const checkIfSessionExists = `
+SELECT *
+FROM pomodoros p, users u
+WHERE u.userid = p.userid
+  AND u.username = $1
+  AND u.email = $2
+  AND p.sessiondate = $3;
+`;
+
+    const createSessionWith_OnePomodoro = `
+INSERT INTO pomodoros (userid, pomodorocount, sessiondate)
+SELECT userid, 1, $1
+FROM users
+WHERE username = $2
+  AND email = $3;
+`;
+
+    const updatePomodoroTable_IncrementByOne = `
+UPDATE pomodoros p
+SET pomodorocount = pomodorocount + 1
+FROM users u
+WHERE u.userid = p.userid
+  AND u.username = $1
+  AND u.email = $2
+  AND p.sessiondate = $3;
+`;
+    if (String(jwtusername).length > 0 && String(jwtemail).length > 0) {
+      const q = await db.asyncQuery(checkIfSessionExists, [
+        jwtusername,
+        jwtemail,
+        intlFormat,
+      ]);
+      if (q.rows.length > 0) {
+        console.log("We have a session for today");
+        const r = await db.asyncQuery(updatePomodoroTable_IncrementByOne, [
+          jwtusername,
+          jwtemail,
+          intlFormat,
+        ]);
+        console.log("R: ", r.rows);
+      } else {
+        console.log("A session does not exist for today");
+        const s = await db.asyncQuery(createSessionWith_OnePomodoro, [
+          intlFormat,
+          jwtusername,
+          jwtemail,
+        ]);
+        console.log("S: ", s.rows);
+      }
+      console.log("Q: ", q.rows);
     }
+
+    res.json({ message: "Good ", body: req.body }).status(200);
   } catch (error) {
     console.warn("/api/timer/complete", error);
   }
