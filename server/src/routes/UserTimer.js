@@ -10,16 +10,68 @@ const { checkCookie } = require("../middleware/validateCookie");
 /**
  * get all pomodoros completed for a (1day, 7day, 30day, 365day)
  */
-// router.get("/completed-pomodoro", checkCookie, async (req, res) => {
-//   try {
-//     const cookie = req.cookies["access-token"];
-//     console.log("Request Cookie: ", cookie);
+router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
+  try {
+    const cookie = req.cookies["access-token"];
+    const sessionDate = req.headers["date-iso"];
 
-//     res.send(req.headers).status(200);
-//   } catch (error) {
-//     console.warn("/api/timer/completed-pomodoro", error);
-//   }
-// });
+    console.log("Request Cookie: ", cookie);
+    console.log("SessionDate: ", sessionDate);
+
+    const decodedJWT = jwt.decode(cookie);
+
+    const decodedUsername = decodedJWT.username;
+    const decodedEmail = decodedJWT.email;
+
+    const userDate = new Date(sessionDate);
+    const dateOption = { dateStyle: "short" };
+
+    const intlFormat = new Intl.DateTimeFormat("en-CA", dateOption).format(
+      userDate
+    );
+
+    const query = `select pomodorocount from pomodoros p, users u where p.userid = u.userid and u.username = $1 and p.sessiondate = $2`;
+
+    if (String(decodedUsername).length > 0 && String(decodedEmail).length > 0) {
+      const q = await db.asyncQuery(query, [decodedUsername, intlFormat]);
+
+      res
+        .json({
+          "req.header": req.headers,
+          "decodejwt: ": decodedJWT,
+          "decodedUser:": decodedUsername,
+          "formatDate: ": intlFormat,
+          "DB: ": q.rows,
+        })
+        .status(200);
+    } else {
+      res.json("message: ", "user/password issue").statusCode(401);
+    }
+  } catch (error) {
+    console.warn("/api/timer/completed-pomodoro/day", error);
+    res.json("Error Thrown: ", error);
+  }
+});
+
+router.get("/completed-pomodoro/week", checkCookie, async (req, res) => {
+  try {
+  } catch (error) {}
+});
+
+router.get("/completed-pomodoro/month", checkCookie, async (req, res) => {
+  try {
+  } catch (error) {}
+});
+
+router.get("/completed-pomodoro/year", checkCookie, async (req, res) => {
+  try {
+  } catch (error) {}
+});
+
+router.get("/completed-pomodoro/all", checkCookie, async (req, res) => {
+  try {
+  } catch (error) {}
+});
 
 router.post("/completed-pomodoro", checkCookie, async (req, res) => {
   try {
@@ -48,30 +100,30 @@ router.post("/completed-pomodoro", checkCookie, async (req, res) => {
     console.log("jwtemail: ", jwtemail);
 
     const checkIfSessionExists = `
-SELECT *
-FROM pomodoros p, users u
-WHERE u.userid = p.userid
-  AND u.username = $1
-  AND u.email = $2
-  AND p.sessiondate = $3;
+      SELECT *
+      FROM pomodoros p, users u
+      WHERE u.userid = p.userid
+        AND u.username = $1
+        AND u.email = $2
+        AND p.sessiondate = $3;
 `;
 
     const createSessionWith_OnePomodoro = `
-INSERT INTO pomodoros (userid, pomodorocount, sessiondate)
-SELECT userid, 1, $1
-FROM users
-WHERE username = $2
-  AND email = $3;
+      INSERT INTO pomodoros (userid, pomodorocount, sessiondate)
+      SELECT userid, 1, $1
+      FROM users
+      WHERE username = $2
+        AND email = $3;
 `;
 
     const updatePomodoroTable_IncrementByOne = `
-UPDATE pomodoros p
-SET pomodorocount = pomodorocount + 1
-FROM users u
-WHERE u.userid = p.userid
-  AND u.username = $1
-  AND u.email = $2
-  AND p.sessiondate = $3;
+      UPDATE pomodoros p
+      SET pomodorocount = pomodorocount + 1
+      FROM users u
+      WHERE u.userid = p.userid
+        AND u.username = $1
+        AND u.email = $2
+        AND p.sessiondate = $3;
 `;
     if (String(jwtusername).length > 0 && String(jwtemail).length > 0) {
       const q = await db.asyncQuery(checkIfSessionExists, [
