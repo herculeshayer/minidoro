@@ -42,7 +42,7 @@ async function createPomodoroTable(client) {
     const result = await client.query(
       `         create table if not exists pomodoros(
 	sessionid uuid default gen_random_uuid(),
-	userid uuid unique not null,
+	userid uuid not null,
 	pomodorocount int not null,
 	sessiondate date not null,
 	created_at timestamptz default current_timestamp, 
