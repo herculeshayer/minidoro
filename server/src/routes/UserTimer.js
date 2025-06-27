@@ -37,11 +37,9 @@ router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
 
       res
         .json({
-          "req.header": req.headers,
-          "decodejwt: ": decodedJWT,
-          "decodedUser:": decodedUsername,
-          "formatDate: ": intlFormat,
-          "DB: ": q.rows,
+          "message: ": "user info retrieved from database",
+          sessiondate: intlFormat,
+          "completed-pomodoros": q.rows,
         })
         .status(200);
     } else {
@@ -55,6 +53,39 @@ router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
 
 router.get("/completed-pomodoro/week", checkCookie, async (req, res) => {
   try {
+    const cookie = req.cookies["access-token"];
+    const sessionDate = req.headers["date-iso"];
+
+    const userDate = new Date(sessionDate);
+    const dateOptions = { dateStyle: "short" };
+    const intlFormat = new Intl.DateTimeFormat("en-CA", dateOptions).format(
+      userDate
+    );
+
+    const decodedJWT = jwt.decode(cookie);
+    const user = decodedJWT.username;
+    const email = decodedJWT.email;
+
+    const query = `select
+        pomodorocount,
+        sessiondate
+      from
+        pomodoros p
+      join users u on
+        p.userid = u.userid
+      where
+        p.userid = u.userid
+        and u.username = $1
+        and p.sessiondate >= cast($2 as date) - interval '7 days';`;
+
+    if (String(user).length > 0 && String(email).length > 0) {
+      const q = await db.asyncQuery(query, [user, intlFormat]);
+      res.json({
+        "date: ": intlFormat,
+        "decoded: ": decodedJWT,
+        sessions: q.rows,
+      });
+    }
   } catch (error) {}
 });
 
