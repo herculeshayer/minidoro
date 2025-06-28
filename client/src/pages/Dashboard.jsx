@@ -9,6 +9,11 @@ import {
 const Dashboard = () => {
   const navigate = useNavigate();
 
+  const [timer, setTimer] = useState(3); //TESTING WITH 10SECONDS
+  const [startTimer, setStartTimer] = useState(false);
+  const [workIntervalCount, setWorkIntervalCount] = useState(0);
+  const [pomodoroComplete, setPomodoroComplete] = useState(false);
+  const [pomodoroCount, setPomodoroCount] = useState(0);
   const userRedirect = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
 
   useEffect(() => {
@@ -18,22 +23,53 @@ const Dashboard = () => {
     }
   }, [userRedirect]);
 
+  /**
+   * GET todays pomodoro count
+   */
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const date = new Date();
+      const response = await fetch(
+        `${import.meta.env.VITE_USER_POMODORO_DATA}/day`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "date-iso": date,
+          },
+          mode: "cors",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        console.log(
+          `${import.meta.env.VITE_USER_POMODORO_DATA}/day: response not good: `,
+          response
+        );
+      } else {
+        const data = await response.json();
+        setPomodoroCount(data.completedPomodoros[0].pomodorocount);
+        console.log("data: ", data);
+        console.log(
+          "data.pomodorocountarray: ",
+          data.completedPomodoros[0].pomodorocount
+        );
+      }
+    };
+    fetchData();
+  }, [pomodoroComplete]);
+
   const userData = getUserDashboardInformation(
     import.meta.env.VITE_DASHBOARD_API_URL
   );
-
-  const [timer, setTimer] = useState(3); //TESTING WITH 10SECONDS
-  const [startTimer, setStartTimer] = useState(false);
-  const [workIntervalCount, setWorkIntervalCount] = useState(0);
-  const [pomodoroComplete, setPomodoroComplete] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStartTimer(!startTimer);
 
     if (timer === 0) {
-      setPomodoroComplete(true);
-
       try {
         const date = new Date();
         console.log("Date: ", date);
@@ -46,14 +82,14 @@ const Dashboard = () => {
           mode: "cors",
           credentials: "include",
         });
-        if (await !response.ok) {
+        if (!response.ok) {
           console.log(
             "/Dashboard: HandleSubmit: Fetch Response: ",
             await response.json()
           );
         } else {
           console.log(await response.json());
-          setPomodoroComplete(false);
+          setPomodoroComplete(true);
         }
       } catch (error) {
         console.warn("/Dashboard Error: ", error);
@@ -62,6 +98,8 @@ const Dashboard = () => {
       // setTimer(1500);
       // set to 10seconds for testing purposes
       setTimer(3);
+    } else {
+      setPomodoroComplete(false);
     }
   };
 
@@ -93,6 +131,7 @@ const Dashboard = () => {
           {minutes}:{seconds}
         </button>
       </div>
+      <div>{pomodoroCount}</div>
     </section>
   );
 };
