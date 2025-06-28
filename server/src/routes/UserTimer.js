@@ -313,6 +313,7 @@ router.post("/completed-pomodoro", checkCookie, async (req, res) => {
     res.json({ message: "Good ", body: req.body }).status(200);
   } catch (error) {
     console.warn("/api/timer/complete", error);
+    res.send("Error with creation").status(500);
   }
 });
 
