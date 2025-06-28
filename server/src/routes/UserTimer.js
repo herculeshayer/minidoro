@@ -91,7 +91,50 @@ router.get("/completed-pomodoro/week", checkCookie, async (req, res) => {
 
 router.get("/completed-pomodoro/month", checkCookie, async (req, res) => {
   try {
-  } catch (error) {}
+    const cookie = req.cookies["access-token"];
+    const sessionDate = req.headers["date-iso"];
+
+    const decodedJWT = jwt.decode(cookie);
+    const user = decodedJWT.username;
+    const userEmail = decodedJWT.email;
+
+    const userDate = new Date(sessionDate);
+    const dateOptions = { dateStyle: "short" };
+    const intlFormat = new Intl.DateTimeFormat("en-CA", dateOptions).format(
+      userDate
+    );
+
+    const query = `
+      select
+        pomodorocount,
+        sessiondate
+      from
+        pomodoros p
+      join users u on
+        p.userid = u.userid
+      where
+        p.userid = u.userid
+        and u.username = $1
+        and p.sessiondate >= cast($2 as date) - interval '30 days';`;
+
+    if (String(user).length > 0 && String(userEmail).length > 0) {
+      const q = await db.asyncQuery(query, [user, intlFormat]);
+
+      res
+        .json({
+          date: intlFormat,
+          user: user,
+          email: userEmail,
+          sessions: q.rows,
+        })
+        .status(200);
+    } else {
+      res.send("Nah buddy yer junk").send(404);
+    }
+  } catch (error) {
+    console.warn("Error: ", error);
+    res.send("Error getting month data").status(500);
+  }
 });
 
 router.get("/completed-pomodoro/year", checkCookie, async (req, res) => {
