@@ -213,7 +213,7 @@ router.get("/completed-pomodoro/all", checkCookie, async (req, res) => {
         and u.username = $1;`;
 
     if (String(user).length > 0 && String(userEmail).length > 0) {
-      const q = await db.asyncQuery(query, [user, intlFormat]);
+      const q = await db.asyncQuery(query, [user]);
 
       res
         .json({
