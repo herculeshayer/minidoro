@@ -7,16 +7,10 @@ const db = require("../db");
 
 const { checkCookie } = require("../middleware/validateCookie");
 
-/**
- * get all pomodoros completed for a (1day, 7day, 30day, 365day)
- */
 router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
   try {
     const cookie = req.cookies["access-token"];
     const sessionDate = req.headers["date-iso"];
-
-    console.log("Request Cookie: ", cookie);
-    console.log("SessionDate: ", sessionDate);
 
     const decodedJWT = jwt.decode(cookie);
 
@@ -235,28 +229,19 @@ router.get("/completed-pomodoro/all", checkCookie, async (req, res) => {
 router.post("/completed-pomodoro", checkCookie, async (req, res) => {
   try {
     const cookie = req.cookies["access-token"];
-    console.log("Headers: ", req.headers);
 
     const sessionDate = req.headers["date-iso"];
-    console.log("Client Sessions Date: ", sessionDate);
-
-    console.log("Body: ", req.body);
 
     const sessionDateFormatIntl = new Date(sessionDate);
     const intlDateOptions = { dateStyle: "short" };
     const intlFormat = new Intl.DateTimeFormat("en-CA", intlDateOptions).format(
       sessionDateFormatIntl
     );
-    console.log("intl: ", intlFormat);
 
     const decodedJWT = jwt.decode(cookie);
 
     const jwtusername = decodedJWT.username;
     const jwtemail = decodedJWT.email;
-
-    console.log("jwtusername: ", jwtusername);
-
-    console.log("jwtemail: ", jwtemail);
 
     const checkIfSessionExists = `
       SELECT *
@@ -297,7 +282,6 @@ router.post("/completed-pomodoro", checkCookie, async (req, res) => {
           jwtemail,
           intlFormat,
         ]);
-        console.log("R: ", r.rows);
       } else {
         console.log("A session does not exist for today");
         const s = await db.asyncQuery(createSessionWith_OnePomodoro, [
@@ -305,9 +289,7 @@ router.post("/completed-pomodoro", checkCookie, async (req, res) => {
           jwtusername,
           jwtemail,
         ]);
-        console.log("S: ", s.rows);
       }
-      console.log("Q: ", q.rows);
     }
 
     res.json({ message: "Good ", body: req.body }).status(200);
