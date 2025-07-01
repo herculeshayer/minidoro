@@ -28,6 +28,8 @@ const Dashboard = () => {
    */
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     const fetchData = async () => {
       const date = new Date();
       const response = await fetch(
@@ -40,6 +42,7 @@ const Dashboard = () => {
           },
           mode: "cors",
           credentials: "include",
+          signal,
         }
       );
 
@@ -59,7 +62,11 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [pomodoroComplete]);
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   const userData = getUserDashboardInformation(
     import.meta.env.VITE_DASHBOARD_API_URL
@@ -124,6 +131,35 @@ const Dashboard = () => {
   const seconds = String(timer % 60).padStart(2, 0);
   const minutes = String(Math.floor(timer / 60)).padStart(2, 0);
 
+  const pomoParseInt = parseInt(pomodoroCount);
+
+  const [displayPomo, setDisplayPomo] = useState([]);
+
+  console.log("PomoParseInt: ", pomoParseInt);
+  let strArr = [];
+  for (let i = 0; i < pomoParseInt; i++) {
+    strArr.push("I");
+  }
+
+  let newArr = [];
+  let arr = [];
+  for (let i = 0; i < strArr.length; i++) {
+    if (i % 4 === 0) {
+      arr.push(strArr[i]);
+      newArr.push(arr);
+      // setDisplayPomo(newArr);
+      arr = [];
+    } else {
+      arr.push(strArr[i]);
+    }
+  }
+
+  console.log("newArr: ", newArr);
+
+  console.log("strArr: ", strArr);
+
+  console.log("setDisplayPomo: ", displayPomo);
+
   return (
     <section class="user-dashboard">
       <div>
@@ -132,6 +168,8 @@ const Dashboard = () => {
         </button>
       </div>
       <div>{pomodoroCount}</div>
+      <div>Pomodoros: {parseInt(pomodoroCount)}</div>
+      <div>Yddsaa: </div>
     </section>
   );
 };
