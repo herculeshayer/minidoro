@@ -6,6 +6,8 @@ import {
   getRedirectUser,
 } from "../components/requestsAPI";
 
+import Timer from "../components/Timer";
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -66,7 +68,7 @@ const Dashboard = () => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [pomodoroComplete]);
 
   const userData = getUserDashboardInformation(
     import.meta.env.VITE_DASHBOARD_API_URL
@@ -110,66 +112,54 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(() => {
-    let countdownTimer;
-    if (startTimer)
-      countdownTimer = setInterval(() => {
-        setTimer((count) => --count);
-      }, 1000);
+  // useEffect(() => {
+  //   if (timer < 1 && startTimer) {
+  //     setStartTimer(false);
+  //     setWorkIntervalCount((count) => count + 1);
+  //     localStorage.setItem("work-interval", workIntervalCount + 1);
+  //   }
+  // }, [startTimer, timer]);
 
-    return () => clearInterval(countdownTimer);
-  }, [startTimer]);
-
-  useEffect(() => {
-    if (timer < 1 && startTimer) {
-      setStartTimer(false);
-      setWorkIntervalCount((count) => count + 1);
-      localStorage.setItem("work-interval", workIntervalCount + 1);
-    }
-  }, [startTimer, timer]);
-
-  const seconds = String(timer % 60).padStart(2, 0);
-  const minutes = String(Math.floor(timer / 60)).padStart(2, 0);
+  // const seconds = String(timer % 60).padStart(2, 0);
+  // const minutes = String(Math.floor(timer / 60)).padStart(2, 0);
 
   const pomoParseInt = parseInt(pomodoroCount);
 
-  const [displayPomo, setDisplayPomo] = useState([]);
-
-  console.log("PomoParseInt: ", pomoParseInt);
   let strArr = [];
   for (let i = 0; i < pomoParseInt; i++) {
-    strArr.push("I");
+    strArr.push("🍅");
   }
 
   let newArr = [];
   let arr = [];
   for (let i = 0; i < strArr.length; i++) {
-    if (i % 4 === 0) {
-      arr.push(strArr[i]);
+    arr.push(strArr[i]);
+    if (arr.length === 4) {
       newArr.push(arr);
-      // setDisplayPomo(newArr);
       arr = [];
-    } else {
-      arr.push(strArr[i]);
     }
   }
 
-  console.log("newArr: ", newArr);
+  if (arr.length > 0) {
+    newArr.push(arr);
+  }
 
-  console.log("strArr: ", strArr);
-
-  console.log("setDisplayPomo: ", displayPomo);
-
+  let displayPomo = newArr.map((group) => group.join("")).join(" ");
+  console.log("displayPomo: ", displayPomo);
   return (
     <section class="user-dashboard">
       <div>
         <button class="timer-button" onClick={handleSubmit}>
-          {minutes}:{seconds}
+          <Timer
+            timer={timer}
+            setTimer={setTimer}
+            startTimer={startTimer}
+            setStartTimer={setStartTimer}
+          />
+          {/* {minutes}:{seconds} */}
         </button>
       </div>
-      <div>{pomodoroCount}</div>
-      <div>Pomodoros: {parseInt(pomodoroCount)}</div>
-      <div>Yddsaa: </div>
+      <div style={{ fontSize: "2rem", marginTop: "3rem" }}>{displayPomo}</div>
     </section>
   );
 };
