@@ -8,6 +8,8 @@ import {
 
 import Timer from "../components/Timer";
 
+import manipulatePomodoroData from "../util/manipulatePomodoroData";
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -106,26 +108,7 @@ const Dashboard = () => {
 
   const pomoParseInt = parseInt(pomodoroCount);
 
-  let strArr = [];
-  for (let i = 0; i < pomoParseInt; i++) {
-    strArr.push("🍅");
-  }
-
-  let newArr = [];
-  let arr = [];
-  for (let i = 0; i < strArr.length; i++) {
-    arr.push(strArr[i]);
-    if (arr.length === 4) {
-      newArr.push(arr);
-      arr = [];
-    }
-  }
-
-  if (arr.length > 0) {
-    newArr.push(arr);
-  }
-
-  let displayPomo = newArr.map((group) => group.join("")).join(" ");
+  let displayPomo = manipulatePomodoroData(pomoParseInt);
 
   return (
     <section class="user-dashboard">
