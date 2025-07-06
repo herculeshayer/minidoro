@@ -11,9 +11,8 @@ import Timer from "../components/Timer";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [timer, setTimer] = useState(3); //TESTING WITH 10SECONDS
+  const [timer, setTimer] = useState(1500);
   const [startTimer, setStartTimer] = useState(false);
-  const [workIntervalCount, setWorkIntervalCount] = useState(0);
   const [pomodoroComplete, setPomodoroComplete] = useState(false);
   const [pomodoroCount, setPomodoroCount] = useState(0);
   const userRedirect = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
@@ -24,10 +23,6 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, [userRedirect]);
-
-  /**
-   * GET todays pomodoro count
-   */
 
   useEffect(() => {
     const controller = new AbortController();
@@ -103,25 +98,11 @@ const Dashboard = () => {
       } catch (error) {
         console.warn("/Dashboard Error: ", error);
       }
-      //CHANGE BACCK AFTER TESTING
-      // setTimer(1500);
-      // set to 10seconds for testing purposes
-      setTimer(3);
+      setTimer(1500);
     } else {
       setPomodoroComplete(false);
     }
   };
-
-  // useEffect(() => {
-  //   if (timer < 1 && startTimer) {
-  //     setStartTimer(false);
-  //     setWorkIntervalCount((count) => count + 1);
-  //     localStorage.setItem("work-interval", workIntervalCount + 1);
-  //   }
-  // }, [startTimer, timer]);
-
-  // const seconds = String(timer % 60).padStart(2, 0);
-  // const minutes = String(Math.floor(timer / 60)).padStart(2, 0);
 
   const pomoParseInt = parseInt(pomodoroCount);
 
@@ -145,7 +126,7 @@ const Dashboard = () => {
   }
 
   let displayPomo = newArr.map((group) => group.join("")).join(" ");
-  console.log("displayPomo: ", displayPomo);
+
   return (
     <section class="user-dashboard">
       <div>
@@ -156,7 +137,6 @@ const Dashboard = () => {
             startTimer={startTimer}
             setStartTimer={setStartTimer}
           />
-          {/* {minutes}:{seconds} */}
         </button>
       </div>
       <div style={{ fontSize: "2rem", marginTop: "3rem" }}>{displayPomo}</div>
