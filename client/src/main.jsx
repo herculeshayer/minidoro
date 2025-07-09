@@ -11,6 +11,8 @@ import HomePage from "./pages/HomePage";
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* <ShowCasePage /> */}
+
     <HomePage />
   </React.StrictMode>,
   document.getElementById("root")

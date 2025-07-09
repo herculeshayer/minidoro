@@ -15,7 +15,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sass": "sass --watch src/styles/sass/index.scss src/styles/css/index.css"
   },
   "browserslist": {
     "production": [
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
+    "sass": "^1.86.3",
     "vite": "^6.2.5"
   }
 }

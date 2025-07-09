@@ -13,20 +13,15 @@ app.set("trust proxy", 1);
 
 const port = process.env.PORT || 3999;
 
-/**
- * enable cors for all methods
- *
- * TODO: Need to alter for cross site approach
- *
- */
 const cors = require("cors");
 app.use(
   cors({
     credentials: true,
     origin: process.env.DOMAIN_ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "date-iso"],
   })
 );
-app.options("*", cors());
 
 app.get("/", (req, res) => {
   res.send("hi");

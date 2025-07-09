@@ -72,21 +72,26 @@ const postRegistrationInformation = (URL, payload) => {
 
 const getUserDashboardInformation = (URL) => {
   const [userData, setUserData] = useState([]);
-  const getUserInfo = () => {
-    fetch(URL, {
-      method: "GET",
-      credentials: "include",
-      mode: "cors",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUserData(data);
-      });
-  };
   useEffect(() => {
+    const controller = new AbortController();
+    const getUserInfo = () => {
+      fetch(URL, {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+        signal: controller.signal,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
     getUserInfo();
 
-    return () => getUserInfo();
+    return () => controller.abort();
   }, []);
 
   return userData;
