@@ -52,11 +52,11 @@ const Dashboard = () => {
         );
       } else {
         const data = await response.json();
-        setPomodoroCount(data.completedPomodoros[0].pomodorocount);
+        setPomodoroCount(data.sessions[0].pomodorocount);
         console.log("data: ", data);
         console.log(
           "data.pomodorocountarray: ",
-          data.completedPomodoros[0].pomodorocount
+          data.sessions[0].pomodorocount
         );
       }
     };

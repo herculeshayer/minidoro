@@ -7,15 +7,16 @@ export default function Stats() {
    * so each click does not overload the server with api calls
    */
   const [pomodoroCount, setPomodoroCount] = useState(0);
-
+  const [rangeOfPomodoroData, setRangeOfPomodoroData] = useState("");
   const handleSubmitDay = async (typeOfQuery) => {
     // event.preventDefault();
 
+    setRangeOfPomodoroData(typeOfQuery);
     const controller = new AbortController();
     const signal = controller.signal;
     const date = new Date();
     const response = await fetch(
-      `${import.meta.env.VITE_USER_POMODORO_DATA}/day`,
+      `${import.meta.env.VITE_USER_POMODORO_DATA}/${typeOfQuery}`,
       {
         method: "GET",
         headers: {
@@ -30,17 +31,16 @@ export default function Stats() {
 
     if (!response.ok) {
       console.log(
-        `${import.meta.env.VITE_USER_POMODORO_DATA}/day: response not good: `,
+        `${
+          import.meta.env.VITE_USER_POMODORO_DATA
+        }/${typeOfQuery}: response not good: `,
         response
       );
     } else {
       const data = await response.json();
-      setPomodoroCount(data.completedPomodoros[0].pomodorocount);
+      setPomodoroCount(data.sessions[0].pomodorocount);
       console.log("data: ", data);
-      console.log(
-        "data.pomodorocountarray: ",
-        data.completedPomodoros[0].pomodorocount
-      );
+      console.log("data.pomodorocountarray: ", data.sessions[0].pomodorocount);
     }
 
     console.log("TypeOfQuery: ", typeOfQuery);
@@ -48,9 +48,21 @@ export default function Stats() {
   return (
     <section>
       <h1>Stats Page</h1>
+      <h1>{rangeOfPomodoroData}</h1>
       <h1>{pomodoroCount}</h1>
-      <button type="button" onClick={() => handleSubmitDay("day")}>
+      <button
+        disabled={rangeOfPomodoroData === "Day"}
+        type="button"
+        onClick={() => handleSubmitDay("Day")}
+      >
         Day
+      </button>
+      <button
+        disabled={rangeOfPomodoroData == "Week"}
+        type="button"
+        onClick={() => handleSubmitDay("Week")}
+      >
+        Week
       </button>
     </section>
   );
