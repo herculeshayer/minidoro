@@ -42,7 +42,7 @@ router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
         .json({
           "message: ": "user info retrieved from database",
           sessiondate: intlFormat,
-          completedPomodoros: q.rows,
+          sessions: q.rows,
         })
         .status(200);
     } else {
