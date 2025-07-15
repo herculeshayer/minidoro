@@ -45,11 +45,15 @@ export default function Stats() {
 
     console.log("TypeOfQuery: ", typeOfQuery);
   };
+
+  /**
+   * need to display chart based on selection
+   */
   return (
     <section>
       <h1>Stats Page</h1>
       <h1>{rangeOfPomodoroData}</h1>
-      <h1>{pomodoroCount}</h1>
+      <h1>{pomodoroCount}</h1>/
       <button
         disabled={rangeOfPomodoroData === "Day"}
         type="button"
@@ -63,6 +67,27 @@ export default function Stats() {
         onClick={() => handleSubmitDay("Week")}
       >
         Week
+      </button>
+      <button
+        disabled={rangeOfPomodoroData == "Month"}
+        type="button"
+        onClick={() => handleSubmitDay("Month")}
+      >
+        Month
+      </button>
+      <button
+        disabled={rangeOfPomodoroData == "Year"}
+        type="button"
+        onClick={() => handleSubmitDay("Year")}
+      >
+        Year
+      </button>
+      <button
+        disabled={rangeOfPomodoroData == "All"}
+        type="button"
+        onClick={() => handleSubmitDay("All")}
+      >
+        All
       </button>
     </section>
   );
