@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
+// import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 export default function Stats() {
   /**
    * Make sure I'm not making several api calls on button clicks
@@ -75,12 +75,12 @@ export default function Stats() {
       <h1>Stats Page</h1>
       <h1>{rangeOfPomodoroData}</h1>
       {/* <h1>{pomodoroCount}</h1> */}
-      <LineChart width={600} height={300} data={pomodoroCount}>
+      {/*<LineChart width={600} height={300} data={pomodoroCount}>
         <CartesianGrid />
         <Line dataKey="sessions" />
         <XAxis dataKey="pomodoros" />
         <YAxis />
-      </LineChart>
+      </LineChart>*/}
       <button
         disabled={rangeOfPomodoroData === "Day"}
         type="button"

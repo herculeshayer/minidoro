@@ -6,7 +6,8 @@
   "scripts": {
     "test": "src/tests/index.js",
     "start": "node src/app.js",
-    "dev": "NODE_ENVIRONMENT=development nodemon src/app.js",
+    "dev": "NODE_ENV=development nodemon src/app.js",
+    "dev-db-init": "NODE_ENV=development node src/db/setup.js",
     "db-init": "node src/db/setup.js",
     "build": "npm run db-init && npm run start",
     "test-build": "npm run start && npm run db-init"
