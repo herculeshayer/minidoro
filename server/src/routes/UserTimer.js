@@ -14,14 +14,14 @@ router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
 
     const decodedJWT = jwt.decode(cookie);
 
-    if ((decodedJWT.username || decodedJWT.email) === null) {
-      res
-        .json({
-          message: "jwt token error, please login again",
-          cookie: cookie,
-        })
-        .status(401);
-    }
+    // if ((decodedJWT.username || decodedJWT.email) === null) {
+    //   res
+    //     .json({
+    //       message: "jwt token error, please login again",
+    //       cookie: cookie,
+    //     })
+    //     .status(401);
+    // }
 
     const decodedUsername = decodedJWT.username;
     const decodedEmail = decodedJWT.email;

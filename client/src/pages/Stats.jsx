@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-
+import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 export default function Stats() {
   /**
    * Make sure I'm not making several api calls on button clicks
    * Need to check if the data is similar or something
    * so each click does not overload the server with api calls
    */
-  const [pomodoroCount, setPomodoroCount] = useState(0);
+  const [pomodoroCount, setPomodoroCount] = useState([{}]);
   const [rangeOfPomodoroData, setRangeOfPomodoroData] = useState("");
+
   const handleSubmitDay = async (typeOfQuery) => {
     // event.preventDefault();
 
@@ -38,9 +39,29 @@ export default function Stats() {
       );
     } else {
       const data = await response.json();
-      setPomodoroCount(data.sessions[0].pomodorocount);
+      console.log("data.sessions.length: ", data.sessions.length);
+      setPomodoroCount(data.sessions);
+      // const pomoChart = () => {
+      //   <LineChart width={600} height={300} data={data.sessions}>
+      //     <CartesianGrid />
+      //     <Line dataKey="sessions" />
+      //     <XAxis dataKey="pomodoros" />
+      //     <YAxis />
+      //   </LineChart>;
+      // };
+      // if (data.sessions.length > 1) {
+      //   console.log("hit");
+      //   setPomodoroCount(data.sessions);
+      // } else {
+      //   setPomodoroCount(data.sessions[0].pomodorocount);
+      // }
+      // setPomodoroCount(data.sessions[0].pomodorocount);
       console.log("data: ", data);
-      console.log("data.pomodorocountarray: ", data.sessions[0].pomodorocount);
+      console.log(
+        "data.sessions[0].pomodorocount: ",
+        data.sessions[0].pomodorocount
+      );
+      console.log("data.sessions", data.sessions);
     }
 
     console.log("TypeOfQuery: ", typeOfQuery);
@@ -53,7 +74,13 @@ export default function Stats() {
     <section>
       <h1>Stats Page</h1>
       <h1>{rangeOfPomodoroData}</h1>
-      <h1>{pomodoroCount}</h1>/
+      {/* <h1>{pomodoroCount}</h1> */}
+      <LineChart width={600} height={300} data={pomodoroCount}>
+        <CartesianGrid />
+        <Line dataKey="sessions" />
+        <XAxis dataKey="pomodoros" />
+        <YAxis />
+      </LineChart>
       <button
         disabled={rangeOfPomodoroData === "Day"}
         type="button"
