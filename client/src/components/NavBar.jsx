@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import About from "../pages/About";
 import Dashboard from "../pages/Dashboard";
+import Stats from "../pages/Stats";
 
 import { getRedirectUser } from "./requestsAPI";
 
@@ -37,6 +38,9 @@ export default function NavBar() {
         <Link className="navbar-item" to="/dashboard">
           Dashboard
         </Link>
+        <Link className="navbar-item" to="/stats">
+          Stats
+        </Link>
         <Link className="navbar-item" to="/about">
           About
         </Link>
@@ -51,6 +55,7 @@ export default function NavBar() {
         />
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/stats" element={<Stats />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </div>

@@ -14,14 +14,14 @@ router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
 
     const decodedJWT = jwt.decode(cookie);
 
-    if ((decodedJWT.username || decodedJWT.email) === null) {
-      res
-        .json({
-          message: "jwt token error, please login again",
-          cookie: cookie,
-        })
-        .status(401);
-    }
+    // if ((decodedJWT.username || decodedJWT.email) === null) {
+    //   res
+    //     .json({
+    //       message: "jwt token error, please login again",
+    //       cookie: cookie,
+    //     })
+    //     .status(401);
+    // }
 
     const decodedUsername = decodedJWT.username;
     const decodedEmail = decodedJWT.email;
@@ -42,7 +42,7 @@ router.get("/completed-pomodoro/day", checkCookie, async (req, res) => {
         .json({
           "message: ": "user info retrieved from database",
           sessiondate: intlFormat,
-          completedPomodoros: q.rows,
+          sessions: q.rows,
         })
         .status(200);
     } else {
@@ -223,7 +223,7 @@ router.get("/completed-pomodoro/all", checkCookie, async (req, res) => {
           date: intlFormat,
           user: user,
           email: userEmail,
-          sessions: q.rows,
+          sessions: q.rows.sort(),
         })
         .status(200);
     } else {

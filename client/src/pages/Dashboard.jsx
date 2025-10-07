@@ -13,7 +13,7 @@ import manipulatePomodoroData from "../util/manipulatePomodoroData";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [timer, setTimer] = useState(1500);
+  const [timer, setTimer] = useState(3); //1500=25min
   const [startTimer, setStartTimer] = useState(false);
   const [pomodoroComplete, setPomodoroComplete] = useState(false);
   const [pomodoroCount, setPomodoroCount] = useState(0);
@@ -52,11 +52,11 @@ const Dashboard = () => {
         );
       } else {
         const data = await response.json();
-        setPomodoroCount(data.completedPomodoros[0].pomodorocount);
+        setPomodoroCount(data.sessions[0].pomodorocount);
         console.log("data: ", data);
         console.log(
           "data.pomodorocountarray: ",
-          data.completedPomodoros[0].pomodorocount
+          data.sessions[0].pomodorocount
         );
       }
     };
@@ -100,7 +100,7 @@ const Dashboard = () => {
       } catch (error) {
         console.warn("/Dashboard Error: ", error);
       }
-      setTimer(1500);
+      setTimer(3);
     } else {
       setPomodoroComplete(false);
     }

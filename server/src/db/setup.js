@@ -80,7 +80,6 @@ async function setup() {
     await createPomodoroTable(client);
     await client.end();
   }
-
   if (process.env.NODE_ENV == "development") {
     console.log("Environment set to Development");
 
