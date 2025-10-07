@@ -223,7 +223,7 @@ router.get("/completed-pomodoro/all", checkCookie, async (req, res) => {
           date: intlFormat,
           user: user,
           email: userEmail,
-          sessions: q.rows,
+          sessions: q.rows.sort(),
         })
         .status(200);
     } else {
