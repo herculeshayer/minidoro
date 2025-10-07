@@ -23,6 +23,10 @@
   font-size: 12rem;
 }
 
+.statspage-graph h1 {
+  font-size: 2rem;
+}
+
 .register-login {
   margin: 0rem 5rem;
   padding: 25px;
