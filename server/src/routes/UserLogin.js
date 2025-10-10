@@ -27,9 +27,6 @@ router.post("/", async (req, res) => {
     //We're passing back success JSON
     //If password in db matches req.body password, execute conditional
     if (await bcrypt.compare(password, databasePassword)) {
-      console.log(await bcrypt.compare(password, databasePassword));
-      // res.send(databaseUser);
-
       //This info is not hidden, don't pass sensitive info
       //User token
       jwt.sign(
@@ -56,16 +53,15 @@ router.post("/", async (req, res) => {
               // domain: process.env.COOKIE_DOMAIN
             });
           }
-          // res.setHeader('Set-Cookie', token);
-
-          // res.redirect('http://localhost:3000/dashboard');
           res.status(200).json({ status: "OK", tokenData: token });
         }
       );
     } else {
-      res.send("password does not match db password");
+      res.status(404).json({ message: "password does not match db password" });
     }
   } catch (error) {
+    console.error("Error: /api/login: ", error);
+    res.status(500).json({ message: error });
     throw error;
   }
 });

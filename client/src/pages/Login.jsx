@@ -29,21 +29,27 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const success = await postLoginInformation(
-      import.meta.env.VITE_LOGIN_API_URL,
-      {
-        username,
-        password,
-      }
-    );
+    try {
+      const success = await postLoginInformation(
+        import.meta.env.VITE_LOGIN_API_URL,
+        {
+          username,
+          password,
+        }
+      );
 
-    if (success) {
-      onLogin(true);
-      alert("Login Successful!");
-      navigate("/dashboard");
-    }
-    if (!success) {
-      alert("Login False");
+      if (success) {
+        onLogin(true);
+        alert("Login Successful!");
+        navigate("/dashboard");
+      } else {
+        alert("Incorrect Login Information.");
+      }
+    } catch (error) {
+      console.error(
+        "Error: Login: handleSubmit(): postLoginInformation(): ",
+        error
+      );
     }
   };
 

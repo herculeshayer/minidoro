@@ -21,10 +21,6 @@ const postLoginInformation = async (URL, payload) => {
       body: JSON.stringify(payload),
     });
 
-    const data = await response.json();
-
-    console.log("postLoginInformation: response: ", response);
-
     if (!response.ok) {
       return false;
     } else {
