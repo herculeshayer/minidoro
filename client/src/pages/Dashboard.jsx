@@ -46,18 +46,13 @@ const Dashboard = () => {
       );
 
       if (!response.ok) {
-        console.log(
+        console.warn(
           `${import.meta.env.VITE_USER_POMODORO_DATA}/day: response not good: `,
           response
         );
       } else {
         const data = await response.json();
         setPomodoroCount(data.sessions[0].pomodorocount);
-        console.log("data: ", data);
-        console.log(
-          "data.pomodorocountarray: ",
-          data.sessions[0].pomodorocount
-        );
       }
     };
     fetchData();
@@ -78,7 +73,6 @@ const Dashboard = () => {
     if (timer === 0) {
       try {
         const date = new Date();
-        console.log("Date: ", date);
         const response = await fetch(import.meta.env.VITE_USER_POMODORO_DATA, {
           method: "POST",
           headers: {
@@ -89,7 +83,7 @@ const Dashboard = () => {
           credentials: "include",
         });
         if (!response.ok) {
-          console.log(
+          console.warn(
             "/Dashboard: HandleSubmit: Fetch Response: ",
             await response.json()
           );
