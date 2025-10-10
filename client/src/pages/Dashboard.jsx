@@ -13,7 +13,7 @@ import manipulatePomodoroData from "../util/manipulatePomodoroData";
 const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [timer, setTimer] = useState(3); //1500=25min
+  const [timer, setTimer] = useState(1500); //1500=25min
   const [startTimer, setStartTimer] = useState(false);
   const [pomodoroComplete, setPomodoroComplete] = useState(false);
   const [pomodoroCount, setPomodoroCount] = useState(0);
@@ -46,18 +46,13 @@ const Dashboard = () => {
       );
 
       if (!response.ok) {
-        console.log(
+        console.warn(
           `${import.meta.env.VITE_USER_POMODORO_DATA}/day: response not good: `,
           response
         );
       } else {
         const data = await response.json();
         setPomodoroCount(data.sessions[0].pomodorocount);
-        console.log("data: ", data);
-        console.log(
-          "data.pomodorocountarray: ",
-          data.sessions[0].pomodorocount
-        );
       }
     };
     fetchData();
@@ -78,7 +73,6 @@ const Dashboard = () => {
     if (timer === 0) {
       try {
         const date = new Date();
-        console.log("Date: ", date);
         const response = await fetch(import.meta.env.VITE_USER_POMODORO_DATA, {
           method: "POST",
           headers: {
@@ -89,12 +83,11 @@ const Dashboard = () => {
           credentials: "include",
         });
         if (!response.ok) {
-          console.log(
+          console.warn(
             "/Dashboard: HandleSubmit: Fetch Response: ",
             await response.json()
           );
         } else {
-          console.log(await response.json());
           setPomodoroComplete(true);
         }
       } catch (error) {

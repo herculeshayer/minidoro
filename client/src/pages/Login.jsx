@@ -8,8 +8,8 @@ import {
 } from "../components/requestsAPI";
 
 const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState([]);
-  const [password, setPassword] = useState([]);
+  const [username, setUsername] = useState("testuser");
+  const [password, setPassword] = useState("123123");
 
   const navigate = useNavigate();
 
@@ -29,20 +29,27 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const success = await postLoginInformation(
-      import.meta.env.VITE_LOGIN_API_URL,
-      {
-        username,
-        password,
-      }
-    );
+    try {
+      const success = await postLoginInformation(
+        import.meta.env.VITE_LOGIN_API_URL,
+        {
+          username,
+          password,
+        }
+      );
 
-    if (success) {
-      onLogin(true);
-      alert("Login Successful!");
-      navigate("/dashboard");
-    } else {
-      alert("Login False");
+      if (success) {
+        onLogin(true);
+        alert("Login Successful!");
+        navigate("/dashboard");
+      } else {
+        alert("Incorrect Login Information.");
+      }
+    } catch (error) {
+      console.error(
+        "Error: Login: handleSubmit(): postLoginInformation(): ",
+        error
+      );
     }
   };
 
@@ -54,6 +61,7 @@ const Login = ({ onLogin }) => {
           type="text"
           placeholder="Username"
           name="username"
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <label>Password</label>
@@ -61,6 +69,7 @@ const Login = ({ onLogin }) => {
           type="password"
           placeholder="Password"
           name="password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <div>
