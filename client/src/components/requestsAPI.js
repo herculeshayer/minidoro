@@ -102,34 +102,40 @@ const getUserDashboardInformation = (URL) => {
  * Purpose of it is to redirect between login & dashboard if user is authenticated or not
  */
 const getRedirectUser = (URL) => {
-  const [validCookie, setValidCookie] = useState(0);
+  const [validCookie, setValidCookie] = useState(null);
 
-  let controller = new AbortController();
+  useEffect(() => {
+    const controller = new AbortController();
 
-  const getResponse = () => {
-    fetch(URL, {
-      method: "GET",
-      signal: controller.signal,
-      credentials: "include",
-      mode: "cors",
-    })
-      .then((res) => {
-        if (res.status == 200) {
+    const getResponse = async () => {
+      try {
+        const res = await fetch(URL, {
+          method: "GET",
+          signal: controller.signal,
+          credentials: "include",
+          mode: "cors",
+        });
+
+        if (res.status === 200) {
           console.log("Cookie Valid");
           setValidCookie(true);
-        }
-        if (res.status == 403) {
+        } else if (res.status === 403) {
           console.log("Cookie Invalid");
           setValidCookie(false);
+        } else {
+          console.warn("Unexpected status when validating cookie:", res.status);
+          setValidCookie(false);
         }
-      })
-      .catch((err) => console.log(err));
-  };
-  useEffect(() => {
+      } catch (err) {
+        console.log(err);
+        setValidCookie(false);
+      }
+    };
+
     getResponse();
 
     return () => controller.abort();
-  }, [validCookie]);
+  }, [URL]);
 
   return validCookie;
 };

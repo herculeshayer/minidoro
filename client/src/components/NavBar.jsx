@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Routes, Route, Navigate } from "react-router-dom";
+import { Link, Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 import Register from "../pages/Register";
@@ -13,15 +13,13 @@ import { getRedirectUser } from "./requestsAPI";
 export default function NavBar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    // Check cookie validity and update the state
-    const checkAuthStatus = async () => {
-      const result = await getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
-      setIsAuthenticated(result);
-    };
+  const cookieStatus = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
 
-    checkAuthStatus();
-  }, []); // Empty dependency ensures this runs only on mount
+  useEffect(() => {
+    if (typeof cookieStatus === "boolean") {
+      setIsAuthenticated(cookieStatus);
+    }
+  }, [cookieStatus]);
 
   return (
     <div>
