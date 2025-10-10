@@ -8,8 +8,8 @@ import {
 } from "../components/requestsAPI";
 
 const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState([]);
-  const [password, setPassword] = useState([]);
+  const [username, setUsername] = useState("testuser");
+  const [password, setPassword] = useState("123123");
 
   const navigate = useNavigate();
 
@@ -41,7 +41,8 @@ const Login = ({ onLogin }) => {
       onLogin(true);
       alert("Login Successful!");
       navigate("/dashboard");
-    } else {
+    }
+    if (!success) {
       alert("Login False");
     }
   };
@@ -54,6 +55,7 @@ const Login = ({ onLogin }) => {
           type="text"
           placeholder="Username"
           name="username"
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <label>Password</label>
@@ -61,6 +63,7 @@ const Login = ({ onLogin }) => {
           type="password"
           placeholder="Password"
           name="password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <div>
