@@ -12,6 +12,8 @@ const Timer = ({ timer, setTimer, startTimer, setStartTimer }) => {
       }, 1000);
     }
     if (timer < 1) {
+      const audio = new Audio("../../public/sounds/notification.wav");
+      audio.play().catch((e) => console.error("Playback failed: ", e));
       setStartTimer(false);
     }
 
