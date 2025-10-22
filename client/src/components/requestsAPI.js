@@ -75,6 +75,9 @@ const getUserDashboardInformation = (URL) => {
         method: "GET",
         credentials: "include",
         mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
         signal: controller.signal,
       })
         .then((res) => res.json())
@@ -113,6 +116,9 @@ const getRedirectUser = (URL) => {
           method: "GET",
           signal: controller.signal,
           credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
           mode: "cors",
         });
 
