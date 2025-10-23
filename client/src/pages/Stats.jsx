@@ -8,9 +8,23 @@ import {
   Tooltip,
 } from "recharts";
 
+import { getRedirectUser } from "../components/requestsAPI";
+import { useNavigate } from "react-router-dom";
+
 export default function Stats() {
+  const navigate = useNavigate();
+
   const [pomodoroCount, setPomodoroCount] = useState([{}]);
   const [rangeOfPomodoroData, setRangeOfPomodoroData] = useState("");
+
+  const userRedirect = getRedirectUser(import.meta.env.VITE_REDIRECT_USER);
+
+  useEffect(() => {
+    if (userRedirect === false) {
+      alert("Please login");
+      navigate("/login");
+    }
+  }, [userRedirect]);
 
   const handleSubmitDay = async (typeOfQuery) => {
     setRangeOfPomodoroData(typeOfQuery);
